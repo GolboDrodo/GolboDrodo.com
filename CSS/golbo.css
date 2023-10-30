@@ -1,0 +1,36 @@
+h1 {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:90pt;
+    color:white;
+    
+}
+h2 {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size:20pt;
+    color:white;
+    
+}
+h3 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20pt;
+    animation: changeColor 5s infinite; /* Applica l'animazione con una durata di 5 secondi e ripeti all'infinito */
+}
+
+@keyframes changeColor {
+    0% {
+        color: rgb(82, 255, 125);
+    }
+    25% {
+        color: rgb(82, 255, 252);
+    }
+    50% {
+        color: rgb(255, 147, 230);
+    }
+    75% {
+        color: rgb(255, 249, 82);
+    }
+    100% {
+        color: rgb(82, 255, 125);
+    }
+}
+
