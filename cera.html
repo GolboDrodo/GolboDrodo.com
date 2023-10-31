@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>cera</title>
+    <style>
+        p {
+            background-color: rgb(238, 255, 0);
+            border: 2px solid rgb(0, 0, 0);
+            padding: 10px;
+            color: rgb(15, 7, 255);
+            width: 30%;
+            margin: 0 auto;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        @media screen and (max-width: 767px) {
+            /* Regole specifiche per schermi di larghezza massima 767px (tipico dei dispositivi mobili) */
+            p {
+                font-size: 18px; /* Aumenta la dimensione del testo a 18px */
+            }
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <img src="images/cera.gif">
+    <br><br><br>
+    <p id="message">Michael Cera è triste, per renderlo felice fai una piroetta.</p>
+
+    <br><button id="piroetta-button" onclick="changeText()">Piroetta</button>
+
+    <script>
+        function changeText() {
+            var message = document.getElementById("message");
+            message.textContent = "La piroetta era un po' sgraziata, Michael Cera è ancora triste, riprova.";
+        }
+    </script>
+    </center>
+</body>
+</html>
