@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <title>mare</title>
+    <link rel="stylesheet" type="text/css" href="CSS/golbo.css"/>
+    <style>
+        body {
+            background-image: url("images/fondello.jpg");
+            background-color: blue;
+            background-repeat: no-repeat;
+            background-position: center top;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            padding: 20px;
+            
+        }
+
+        .frame {
+            border: 3px solid rgb(255, 38, 38);
+            background-color: rgb(255, 226, 63);
+            padding: 10px;
+            margin: 10px;
+            width: fit-content;
+            color: blue;
+            
+            
+        }
+        img {
+  max-width: calc(100% - 3px); /* 20px per il margine di 10px su entrambi i lati */
+  max-height: calc(100% - 3px); /* 20px per il margine di 10px su entrambi i lati */
+}
+
+  
+    </style>
 </head>
-<style>
-    
-    body {
-        background-image: url("images/fondello.jpg");
-        background-color: blue;
-        background-repeat: no-repeat;
-        display: flex;
-        flex-direction:column;
-        justify-content: center;
-        align-items:center;
 
-        margin: 20px;
-        padding: 20px;
-    }
-
-    .content {
-        max-width: 100%; /* Limit the content width to the viewport width */
-    }
-</style>
-</style>
-<body>
-    <div>
-    <center><img src="images/piedi.JPG" width="800"><br><br>
-    <img src="images/piscio.jpg" width="800"><br><br>
-    <img src="images/terrazzi.jpg" width="800"><br><br>
-    <img src="images/piscioculo.jpg" width="1100"><br><br>
-    <img src="images/jasmiscio.jpg" width="1100"><br><br>
-    <img src="images/orizzo.jpg" width="1100"><br><br>
-    <img src="images/smokko.jpg" width="800"</center></div>
+<body> 
+        <div class="frame">
+        <center><img src="images/piscio.jpg" width="750"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/piedi.JPG" width="750"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/terrazzi.jpg" width="750"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/piscioculo.jpg" width="1050"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/jasmiscio.jpg" width="1050"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/spaparanzato.jpg" width="750"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/orizzo.jpg" width="1050'"></center>
+    </div>
+    <div class="frame">
+        <center><img src="images/smokko.jpg" width="750"></center>
+    </div>
 </body>
+
 </html>
