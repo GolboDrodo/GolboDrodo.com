@@ -70,7 +70,7 @@ h4 {
 /* Media query per dispositivi mobili con larghezza massima di 767px */
 @media (max-width: 767px) {
     .contenitore {
-        font-size: 40px; /* Dimensione del font per dispositivi mobili */
+        font-size: 55px; /* Dimensione del font per dispositivi mobili */
     }
 }
 
