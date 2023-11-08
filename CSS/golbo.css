@@ -64,7 +64,14 @@ h4 {
     }
 }
 .contenitore {
-    height: 700px; /* Sostituisci con l'altezza del contenuto effettivo */
+    font-size: 20px; /* Dimensione predefinita per computer */
+}
+
+/* Media query per dispositivi mobili con larghezza massima di 767px */
+@media (max-width: 767px) {
+    .contenitore {
+        font-size: 40px; /* Dimensione del font per dispositivi mobili */
+    }
 }
 
 .testo-fisso {
