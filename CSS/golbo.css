@@ -22,6 +22,11 @@ h3 {
     color:rgb(255, 217, 0);
 
 }
+@media (max-width: 767px) {
+    .mare {
+        font-size: 40px; /* Dimensione del font per dispositivi mobili */
+    }
+}
 
 @keyframes changeColor {
     0% {
