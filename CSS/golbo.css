@@ -4,16 +4,23 @@ h1 {
     color:white;
     
 }
-h2 {
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    font-size:20pt;
-    color:white;
+h12 {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:60pt;
+    color:rgb(61, 58, 244);
     
 }
+
 h3 {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 20pt;
     animation: changeColor 5s infinite; /* Applica l'animazione con una durata di 5 secondi e ripeti all'infinito */
+}
+.mare{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 16pt;
+    color:rgb(255, 217, 0);
+
 }
 
 @keyframes changeColor {
