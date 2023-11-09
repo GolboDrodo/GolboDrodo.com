@@ -24,11 +24,7 @@ h3 {
     color:rgb(255, 217, 0);
 
 }
-@media (max-width: 767px) {
-    .mare {
-        font-size: 40px; /* Dimensione del font per dispositivi mobili */
-    }
-}
+
 
 @keyframes changeColor {
     0% {
@@ -83,6 +79,7 @@ h4 {
     color: rgb(0, 0, 0); /* Imposta il colore del testo in bianco all'interno del contenitore */
     width: 80%; /* Imposta la larghezza del contenitore al 70% della larghezza della pagina */
     margin: 0px; /* Centra il contenitore orizzontalmente */
+    
 }
 
 
@@ -97,3 +94,26 @@ h4 {
 }
 
 
+@media screen and (max-width: 600px) {
+    /* Stili per schermi con larghezza massima di 600px */
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 5px;
+    }
+    h1 {
+        font-size: 40px;
+    }
+    h2 {
+        font-size: 14px;
+    }
+    h4 {
+        font-size: 35px;
+    }
+    img {
+        max-height: 90px; /* Set the maximum width to 100% of the parent container */
+        width: auto;    /* Maintain the aspect ratio of the image */
+    }
+}
