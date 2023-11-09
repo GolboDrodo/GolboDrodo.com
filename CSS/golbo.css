@@ -45,7 +45,7 @@ h3 {
 }
 h4 {
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 40pt;
+    font-size: 20pt;
     animation: changeColor 5s infinite; /* Applica l'animazione con una durata di 5 secondi e ripeti all'infinito */
 }
 
@@ -110,7 +110,7 @@ h4 {
         font-size: 14px;
     }
     h4 {
-        font-size: 35px;
+        font-size: 20px;
     }
     img {
         max-height: 80px; /* Set the maximum width to 100% of the parent container */
