@@ -94,7 +94,7 @@ h4 {
 }
 
 
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 200px) and (max-width: 1025px) {
     /* Stili per schermi con larghezza massima di 600px */
     body {
         font-size: 14px;
