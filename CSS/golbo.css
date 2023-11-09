@@ -1,9 +1,11 @@
 h1 {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:90pt;
-    color:white;
     
+    font-size:70pt;
 }
+h2 {
+    
+    
+}    
 h12 {
     font-family:Arial, Helvetica, sans-serif;
     font-size:60pt;
@@ -69,15 +71,21 @@ h4 {
     }
 }
 .contenitore {
-    font-size: 20px; /* Dimensione predefinita per computer */
+    font-size: 16px; /* Dimensione predefinita per computer */
+    
+}
+.contenitore2 {
+    font-size: 16px; /* Dimensione predefinita per computer */
+    background-color: rgba(234, 19, 177, 0.911);
+    border: 2px solid rgb(0, 0, 0); /* Imposta un bordo bianco da 2 pixel intorno al contenitore */
+    padding: 10px; /* Aggiunge uno spazio di 10 pixel tra il testo e il bordo del contenitore */
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(0, 0, 0); /* Imposta il colore del testo in bianco all'interno del contenitore */
+    width: 80%; /* Imposta la larghezza del contenitore al 70% della larghezza della pagina */
+    margin: 0px; /* Centra il contenitore orizzontalmente */
 }
 
-/* Media query per dispositivi mobili con larghezza massima di 767px */
-@media (max-width: 767px) {
-    .contenitore {
-        font-size: 55px; /* Dimensione del font per dispositivi mobili */
-    }
-}
+
 
 .testo-fisso {
     position: fixed;
