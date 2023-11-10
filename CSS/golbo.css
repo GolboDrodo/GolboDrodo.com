@@ -72,7 +72,7 @@ h4 {
 }
 .contenitore2 {
     font-size: 16px; /* Dimensione predefinita per computer */
-    background-color: rgba(234, 19, 177, 0.911);
+    background-color: rgba(255, 0, 0, 0);
     border: 2px solid rgb(0, 0, 0); /* Imposta un bordo bianco da 2 pixel intorno al contenitore */
     padding: 10px; /* Aggiunge uno spazio di 10 pixel tra il testo e il bordo del contenitore */
     font-family: Arial, Helvetica, sans-serif;
