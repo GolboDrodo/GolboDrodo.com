@@ -113,7 +113,7 @@ h4 {
         font-size: 20px;
     }
     img {
-        max-height: 80px; /* Set the maximum width to 100% of the parent container */
+        max-height: 75px; /* Set the maximum width to 100% of the parent container */
         width: auto;    /* Maintain the aspect ratio of the image */
     }
 }
