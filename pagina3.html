@@ -120,6 +120,22 @@
 }
 
 
+.mobile-image {
+  display: none; /* Nasconde l'immagine su desktop */
+}
+
+/* Media query che si applica ai dispositivi con larghezza massima di 768px (es. dispositivi mobili) */
+@media screen and (min-width: 200px) and (max-width: 700px) {
+  .desktop-image {
+    display: none; /* Nasconde l'immagine su dispositivi mobili */
+  }
+
+  .mobile-image {
+    display: block; /* Mostra l'immagine su dispositivi mobili */
+  }
+}
+
+
 
 
 
@@ -131,7 +147,13 @@
 <div class="frame"><img src="images/braccia.jpg" width="1000"></div>
 <div class="frame12"><img src="images/cruci.jpg" width="1200"></div>
 <div class="frame2"><img src="images/bici.webp" width="120"></div>
-<div class="fram12e"><img src="images/piangino2.png" width="1300"></div>
+
+
+<div class="fram12e"><img class="desktop-image" src="images/piangino2.png" alt="Immagine per desktop"></div>
+<div class="fram12e"><img class="mobile-image" src="images/piangino3.png" alt="Immagine per cellulare"></div>
+
+
+
 <div class="frame12"><img src="images/violino.jpeg" width="1300"></div>
 <div class="frameX"><img src="images/cane.jpg" width="550"><img src="images/mozzarelline.jpg" width="550"></div>
 <div class="frame3"><img src="images/cereali2.jpg" width="800"></div> 
