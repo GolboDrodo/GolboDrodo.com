@@ -1,0 +1,115 @@
+body {
+    background-color: rgb(255, 0, 0);
+    background-repeat: no-repeat;
+    background-position: center top;
+    display: flex;
+    flex-direction: column;
+    
+    
+      
+}
+
+@media screen and (min-width: 200px) and (max-width: 800px) {
+    /* Stili per schermi con larghezza massima di 600px */
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 5px;
+    }
+    h1 {
+        font-size: 12px;
+    }
+    h2 {
+        font-size: 14px;
+    }
+    h4 {
+        font-size: 20px;
+    }
+    .img-alt {
+        height: 20px;
+        
+    }
+    img {
+        max-height: 56px; /* Set the maximum width to 100% of the parent container */
+        width: auto;    /* Maintain the aspect ratio of the image */
+    }
+    .small-image  {
+    max-height: 15px;
+       
+        
+    }
+    .imgBONUS{
+    max-height: 250px;
+    
+  
+    }
+    .linkini  {
+        width: inherit; 
+        
+        
+        }
+
+    
+    
+   
+}
+.testo-fisso {
+    position:fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding: 10px;   
+}
+p{
+
+text-align: left;
+width:fit-content;
+border: 2px solid rgba(0, 0, 0, 0);
+
+
+}
+
+
+.sinistra{
+text-align: left;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0px;
+font-family: Arial, Helvetica, sans-serif;
+}
+.centro{
+text-align: center;
+display: flex;
+justify-content: center;
+margin: 0px;
+}
+.destra{
+text-align: right;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0px;
+}
+
+img {
+    height: 100px;
+    display:inline;    
+}
+
+.flex-container {
+            display: flex;
+            margin-top: 0px;
+            align-items:center;
+            border: 2px solid black;
+        }
+.small-image {
+            padding-top:2px;
+            height: 30px; /* Set the height as needed */
+            display: inline;
+            
+            
+            
+        }
