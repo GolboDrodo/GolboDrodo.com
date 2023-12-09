@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contatti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="CSS/css2.css"/>
+  <style>
+    /* Stile per il pulsante */
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background-color: white;
+
+}
+a {
+    text-decoration: none;
+    color: black;
+  }
+    .pulsante-rosso {
+      background-color: rgb(234, 255, 3);
+      color: rgb(0, 0, 0);
+      padding: 10px 20px;
+      border: 2px solid black;
+      cursor: pointer;
+      font-size: 16px;
+      width: 700px;
+     
+    }
+
+
+    @media screen and (min-width: 200px) and (max-width: 800px) {
+    /* Stili per schermi con larghezza massima di 600px */
+
+    .pulsante-rosso {
+        font-size: 8px;
+        width: 300px;
+    }
+    .body{
+        
+        width: 50px;
+    }
+    .img {
+    width: 30px;
+
+    }
+}
+
+
+  </style>
+  <script>
+    function copiaTesto() {
+      var testoDaCopiare = "golbodrodo@gmail.com";
+      var elementoTemporaneo = document.createElement("textarea");
+      elementoTemporaneo.value = testoDaCopiare;
+      document.body.appendChild(elementoTemporaneo);
+      elementoTemporaneo.select();
+      document.execCommand("copy");
+      document.body.removeChild(elementoTemporaneo);
+      alert("Testo copiato negli appunti: " + testoDaCopiare);
+    }
+    function copiaTestoConAudio() {
+  var testoDaCopiare = "0721808903";
+  
+  // Creazione dell'elemento audio
+  var audio = new Audio('images/callme.mp3'); 
+  
+  var elementoTemporaneo = document.createElement("textarea");
+  elementoTemporaneo.value = testoDaCopiare;
+  document.body.appendChild(elementoTemporaneo);
+  elementoTemporaneo.select();
+  document.execCommand("copy");
+  document.body.removeChild(elementoTemporaneo);
+  
+  // Riproduzione del suono
+  audio.play();
+  
+  alert("Testo copiato negli appunti: " + testoDaCopiare);
+}
+
+  </script>
+</head>
+<body>
+<center>
+
+    <div style="display: flex; justify-content: space-between;border:2px solid rgb(0, 0, 0);">
+        <a href="arti.html"><h2 class="sinistra">LAVORI</h1></a>
+        
+        <div class="centro">
+            <img src="images/skeleks.gif" class="small-image">
+            <a href="index.html"> <h2 style="margin: 0;">GOLBO DRODO</h1></a>
+            <img src="images/skeleks.gif" class="small-image">
+        </div>
+        
+    <a style="color: rgb(102, 0, 255);" href="provamail.html"><h2 class="destra">CONT-</h2></a>
+    </div>
+<h2 style="color: rgb(102, 0, 255);">-ATTI</h2>
+
+<button class="pulsante-rosso" onclick="copiaTesto()"><h1>golbodrodo@gmail.com</h1></button>
+<br><br>
+<button class="pulsante-rosso" onclick="copiaTestoConAudio()"><h1>0721808903</h1></button><br><br>
+<img src="images/phone.gif" width="100px">
+<img src="images/call-me-shaq.gif" width="200px">
+<img src="images/phone.gif" width="100px">
+</center>
+<div class="testo-fisso">
+    <center><a href="info2.html"><h2>info</h2></a></center>
+</div>
+</body>
+</html>
