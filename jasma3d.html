@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>jasma3d</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    
+</head>
+<body>
+<style>
+body{
+font-family: Arial, Helvetica, sans-serif;
+background-color: rgb(243, 0, 194);
+display: flex;
+flex-direction: column;
+}
+img{
+
+width:300px;
+}
+.pulsante-rosso {
+      background-color: rgb(234, 255, 3);
+      color: rgb(0, 0, 0);
+      border: 2px solid black;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 300px;
+     
+    }
+    @media screen and (min-width: 200px) and (max-width: 1000px) {
+    /* Stili per schermi con larghezza massima di 600px */
+
+    .pulsante-rosso {
+        font-size: 8px;
+        width: fit-content;
+    }
+    .img {
+    max-width: 400px;
+
+    }
+}
+</style>
+    <center>
+    <h1>josbert 3d</h1>
+    <img src="pdsimg/jasma3dant.png"  id="jasma">
+   
+<br>
+    <button class="pulsante-rosso" onclick="ruota()"><h1>ruota</h1></button>
+    <button class="pulsante-rosso" onclick="ferma()"><h1>stop</h1></button>
+    <button class="pulsante-rosso" onclick="lesbicizza()"><h1>lesbicizza</h1></button>
+    <button class="pulsante-rosso" onclick="delellizza()"><h1>delellizza</h1></button>
+
+</center>
+
+<script>
+function ruota(){
+
+document.getElementById ("jasma").src="pdsimg/jasmgif.gif" ;
+}
+function ferma(){
+
+document.getElementById ("jasma").src="pdsimg/jasma3dant.png" ;
+}
+function lesbicizza(){
+
+document.getElementById ("jasma").src="pdsimg/jasmlellax.gif" ;
+}
+function delellizza(){
+
+document.getElementById ("jasma").src="pdsimg/delellazione.gif" ;
+}
+</script>
+</body>
+</html>
