@@ -57,7 +57,7 @@ body {
 }
 .testo-fisso {
     position:fixed;
-    bottom: 10px;
+    bottom: 0px;
     left: 0;
     width: 100%;
     padding: 10px;   
