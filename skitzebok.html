@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>skitzebok</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<style>
+    body {
+        font-family:Arial, Helvetica, sans-serif;
+        background-color:black;
+        color: rgb(255, 255, 255);
+    }
+
+    /* Add some styling for the image */
+   
+    
+   .myImage{
+        height : 200px; /* Set a width for the image */
+        transition: transform 0.3s; /* Add a smooth transition effect */
+    }
+    .myImage2{
+        height : 250px; /* Set a width for the image */
+        transition: transform 0.3s; /* Add a smooth transition effect */
+    }
+   
+
+    /* Style for the centered content */
+
+    div{
+display:flex;
+align-items: baseline;
+
+
+    
+    }
+    .div2 {
+        display: inline-block;
+        width: 50%;
+        box-sizing: border-box;
+        
+      
+        
+    }
+
+    .div2 a {
+        display: block;
+        text-decoration: none;
+        margin-bottom: 80px;
+    }
+    @media screen and (max-width: 800px) {
+
+        .myImage{
+        height : 200px; /* Set a width for the image */
+        transition: transform 0.3s; /* Add a smooth transition effect */
+    }
+    .myImage2{
+        height : 250px; /* Set a width for the image */
+        transition: transform 0.3s; /* Add a smooth transition effect */
+    }
+div{
+
+border: 1px solid rgba(255, 255, 255, 0);
+display: inline-block;
+
+
+}
+.div2 {
+    
+        width: 100%;
+        box-sizing: border-box;
+      
+        
+    }
+
+}
+</style>
+<body>
+    <center>
+        <!-- Add an ID to the image for easy reference in JavaScript -->
+        <p>skitzebok</p>
+    <div>
+    <div class="div2">
+        <a href="2324.html" style="color: inherit;"><img id="myImage" class="myImage" src="images/skitezb.gif"  onmouseover="changeImage()" onmouseout="restoreImage()">
+      </a>
+    </div>
+    <div class="div2">
+   
+        <a href="24.html" style="color: inherit;"><img id="myImage2" class="myImage2" src="images/bookke.gif"  onmouseover="changeImage2()" onmouseout="restoreImage2()">
+        </a>
+    </div>
+    </div> 
+      
+    </center>
+
+    <script>
+        // JavaScript function to change the image source on mouse over
+        function changeImage() {
+            // Replace 'new_image_path' with the path to your new image
+            document.getElementById("myImage").src = "images/skitezb.png";
+        }
+
+        // JavaScript function to restore the original image on mouse out
+        function restoreImage() {
+            // Replace 'original_image_path' with the path to your original image
+            document.getElementById("myImage").src = "images/skitezb.gif";
+        }
+
+
+        function changeImage2() {
+            // Replace 'new_image_path' with the path to your new image
+            document.getElementById("myImage2").src = "images/bookpienne.png";
+        }
+
+        // JavaScript function to restore the original image on mouse out
+        function restoreImage2() {
+            // Replace 'original_image_path' with the path to your original image
+            document.getElementById("myImage2").src = "images/bookke.gif";
+        }
+    </script>
+</body>
+</html>
