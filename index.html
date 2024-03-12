@@ -16,14 +16,29 @@
 <style>
 body{
     
-    background-color:rgb(129, 29, 229);
+    background-color:rgb(255, 255, 255);
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
     color:rgb(0, 0, 0);
     font-family:Arial, Helvetica, sans-serif;
+  
+    
     
    
+}
+.button {
+  border: none;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 100px;
+  margin: 4px 2px;
+  transition-duration: 0.1s;
+  cursor:help;
+  border-radius: 14px;
+  font-family: none;
 }
 .sinistra{
 text-align: left;
@@ -47,7 +62,8 @@ margin: 0px;
 }
 
 img {
-    height: 100px;
+    width:100%;
+    height: 100%;
     display:inline;    
 }
 
@@ -55,11 +71,12 @@ img {
             display: flex;
             margin-top: 0px;
             align-items:center;
-            border: 2px solid black;
+            border: 2px solid rgb(255, 255, 255);
         }
 .small-image {
             padding-top:2px;
             height: 30px; /* Set the height as needed */
+            width: auto;
             display: inline;
             
             
@@ -69,29 +86,63 @@ img {
 
     width:100%;
     height: auto;
+}
+.pipo{
+max-width: 800px;
 
+margin-left: auto;
+margin-right: auto;
+display: block;
 }
 .linkini{
-background-color:rgba(252, 253, 255, 0);
-border: 2px solid rgb(0, 0, 0); 
-border-radius: 12px;
+background-color:rgba(252, 252, 252, 0);
 padding-top: 10px;
 padding-right: 10px;
 padding-left: 10px;
 
 }
+.linkini2{
+background-color:rgba(252, 252, 252, 0);
+padding-top: 10px;
+    color: black;
+margin-left: auto;
+margin-right: auto;
+
+
+}
     a {
-    text-decoration: none;
+    text-decoration:none;
     color: black;
   
 
 }
+
+.buttono {
+  background-color: rgb(190, 190, 190);
+  border: 2px solid #000000;
+  font-size: 30px;
+
+}
+
+.buttono:hover {background-color: #ff00ea52;}
   @media screen and (min-width: 800px) {
 
 .linkini{
 width: 700px;
  
 }
+.linkini2{
+            font-family: Arial, Helvetica, sans-serif;
+             
+            }
+            .buttono {
+  background-color: rgb(190, 190, 190);
+  border: 2px solid #000000;
+  font-size: 100px;
+
+}
+
+
   }
 </style> 
  
@@ -108,39 +159,28 @@ width: 700px;
     <a href="provamail.html"><h2 class="destra">CONT-</h2></a>
     </div>
 
-    <img src="images/GIF1.gif">
+    <img src="images/rescantest.jpg" class="pipo">
     <center>
-    <p>Ventisette ossa, trentacinque muscoli,<br>
-        circa duemila cellule nervose in ogni polpastrello delle nostre cinque dita.<br>
-        È più che sufficiente<br> 
-        per scrivere Mein Kampf<br>
-        o Winnie the Pooh. - Wislawa szymborska.
-        </p>
+    
     <br>
       
     
         
-     <div class="linkini">  
-        <a href="skitzebok.html"style="color: inherit;"><img src="images/3dicona6.png" height="170">skitsebog</a>&nbsp;
-    <a href="arti.html" style="color: inherit;"><img src="images/3dicona2.png " height="170">shop</a>&nbsp;
-    <a href="pagina2.html" style="color: inherit;"><img src="images/3dicona3.png" height="170">glande</a><br><br>
-    <a href="mare.html" style="color: inherit;"><img src="images/3dicona4.png" height="170">mare</a>&nbsp;
-    <a href="pagina3.html"style="color: inherit;"><img src="images/3dicona5.png" height="170">kavoletti</a>&nbsp;
-    <a href="cazzini.html"style="color: inherit;"><img src="images/3dicona555.png" height="170">14/09/23</a><br><br>
-   
+    <div class="linkini2">  
+    <button class="button buttono" onclick="window.location.href='skitzebok.html';"style="color:black">skitsebog</button>
+    <button class="button buttono"  onclick="window.location.href='arti.html';"style="color: rgb(0, 0, 0);">shop</button>
+    <button class="button buttono" onclick="window.location.href='pagina2.html';" style="color: black;">salmone</button>
+    <button class="button buttono" onclick="window.location.href='pagina3.html';"style="color:black;">kavoletti</button>
+    <button class="button buttono" onclick="window.location.href='cazzini.html';"style="color:black">14/09/23</button>
+    <button class="button buttono" onclick="window.location.href='info2.html';"style="color:black">info</button>
     </div> 
     <br><br>
-    <img class="imgBONUS" src="images/scarpalove.jpg">
+   
    
 
     </center>
     
-   
-  
-    
-    <div class="testo-fisso">
-        <center><a href="info.html"><h2>info</h2></a></center>
-    </div>
+
    
 
 </body>
