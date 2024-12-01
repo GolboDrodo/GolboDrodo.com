@@ -1,122 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8" />
-    <title>skitzebok</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   </head>
+
+    <title>golbo calciforme</title>
+    <link rel="icon" type="image/png" href="images/car.png" sizes="16x16">
+
+    <link rel="stylesheet" type="text/css" href="CSS/css2.css"/>
+    
+
+<script src="js/golbo.js"></script>
+</head>
+
 <style>
-    body {
-        font-family:Arial, Helvetica, sans-serif;
-        background-color:black;
-        color: rgb(255, 255, 255);
-    }
-
-    /* Add some styling for the image */
-   
+body{
     
-   .myImage{
-        height : 200px; /* Set a width for the image */
-        transition: transform 0.3s; /* Add a smooth transition effect */
-    }
-    .myImage2{
-        height : 250px; /* Set a width for the image */
-        transition: transform 0.3s; /* Add a smooth transition effect */
-    }
-   
-
-    /* Style for the centered content */
-
-    div{
-display:flex;
-align-items: baseline;
-
-
+    background-color:rgb(255, 255, 255);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color:rgb(0, 0, 0);
+    font-family:Arial, Helvetica, sans-serif;
+  
     
-    }
-    .div2 {
-        display: inline-block;
-        width: 50%;
-        box-sizing: border-box;
-        
-      
-        
-    }
+    
+   
+}
+.button {
+  border: none;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 100px;
+  margin: 4px 2px;
+  transition-duration: 0.1s;
+  cursor:help;
+  border-radius: 14px;
+  font-family: none;
+}
+.sinistra{
+text-align: left;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0px;
+}
+.centro{
+text-align: center;
+display: flex;
+justify-content: center;
+margin: 0px;
+}
+.destra{
+text-align: right;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0px;
+}
 
-    .div2 a {
-        display: block;
-        text-decoration: none;
-        margin-bottom: 80px;
-    }
-    @media screen and (max-width: 800px) {
+img {
+    width:100%;
+    height: 100%;
+    display:inline;    
+}
 
-        .myImage{
-        height : 200px; /* Set a width for the image */
-        transition: transform 0.3s; /* Add a smooth transition effect */
-    }
-    .myImage2{
-        height : 250px; /* Set a width for the image */
-        transition: transform 0.3s; /* Add a smooth transition effect */
-    }
-div{
+.flex-container {
+            display: flex;
+            margin-top: 0px;
+            align-items:center;
+            border: 2px solid rgb(255, 255, 255);
+        }
+.small-image {
+            padding-top:2px;
+            height: 30px; /* Set the height as needed */
+            width: auto;
+            display: inline;
+            
+            
+            
+        }
+.imgBONUS{
 
-border: 1px solid rgba(255, 255, 255, 0);
-display: inline-block;
+    width:100%;
+    height: auto;
+}
+.pipo{
+max-width: 800px;
+
+margin-left: auto;
+margin-right: auto;
+display: block;
+}
+.linkini{
+background-color:rgba(252, 252, 252, 0);
+padding-top: 10px;
+padding-right: 10px;
+padding-left: 10px;
+
+}
+.linkini2{
+background-color:rgba(252, 252, 252, 0);
+padding-top: 10px;
+    color: black;
+margin-left: auto;
+margin-right: auto;
 
 
 }
-.div2 {
-    
-        width: 100%;
-        box-sizing: border-box;
-      
-        
-    }
+    a {
+    text-decoration:none;
+    color: black;
+  
 
 }
-</style>
+
+.buttono {
+  background-color: rgb(190, 190, 190);
+  border: 2px solid #000000;
+  font-size: 30px;
+
+}
+
+.buttono:hover {background-color: #ff00ea52;}
+  @media screen and (min-width: 800px) {
+
+.linkini{
+width: 700px;
+ 
+}
+.linkini2{
+            font-family: Arial, Helvetica, sans-serif;
+             
+            }
+            .buttono {
+  background-color: rgb(190, 190, 190);
+  border: 2px solid #000000;
+  font-size: 100px;
+
+}
+
+
+  }
+</style> 
+ 
 <body>
+    <div style="display: flex; justify-content: space-between;border:2px solid rgb(0, 0, 0);">
+        <a href="arti.html"><h2 class="sinistra">LAVORI</h1></a>
+        
+        <div class="centro">
+            <img src="images/skeleks.gif" class="small-image">
+            <a style="color: rgb(255, 0, 0);" href="index.html"> <h2 style="margin: 0;">GOLBO DRODO</h1></a>
+            <img src="images/skeleks.gif" class="small-image">
+        </div>
+        
+    <a href="provamail.html"><h2 class="destra">CONT-</h2></a>
+    </div>
+
+    <img src="images/change.jpg" class="pipo">
     <center>
-        <!-- Add an ID to the image for easy reference in JavaScript -->
-        <p>skitsebog</p>
-    <div>
-    <div class="div2">
-        <a href="2324.html" style="color: inherit;"><img id="myImage" class="myImage" src="images/skitezb.gif"  onmouseover="changeImage()" onmouseout="restoreImage()">
-      </a>
-    </div>
-    <div class="div2">
-   
-        <a href="24.html" style="color: inherit;"><img id="myImage2" class="myImage2" src="images/bookke.gif"  onmouseover="changeImage2()" onmouseout="restoreImage2()">
-        </a>
-    </div>
-    </div> 
+    
+    <br>
       
+    
+        
+    <div class="linkini2">  
+    <button class="button buttono" onclick="window.location.href='skitzebok.html';"style="color:black">skitsebog</button>
+    <button class="button buttono"  onclick="window.location.href='arti.html';"style="color: rgb(0, 0, 0);">shop</button>
+    <button class="button buttono" onclick="window.location.href='pagina2.html';" style="color: black;">salmone</button>
+    <button class="button buttono" onclick="window.location.href='pagina3.html';"style="color:black;">kavoletti</button>
+    <button class="button buttono" onclick="window.location.href='cazzini.html';"style="color:black">14/09/23</button>
+    <button class="button buttono" onclick="window.location.href='info2.html';"style="color:black">info</button>
+    </div> 
+    <br><br>
+   
+   
+
     </center>
+    
 
-    <script>
-        // JavaScript function to change the image source on mouse over
-        function changeImage() {
-            // Replace 'new_image_path' with the path to your new image
-            document.getElementById("myImage").src = "images/skitezb.png";
-        }
+   
 
-        // JavaScript function to restore the original image on mouse out
-        function restoreImage() {
-            // Replace 'original_image_path' with the path to your original image
-            document.getElementById("myImage").src = "images/skitezb.gif";
-        }
-
-
-        function changeImage2() {
-            // Replace 'new_image_path' with the path to your new image
-            document.getElementById("myImage2").src = "images/bookpienne.png";
-        }
-
-        // JavaScript function to restore the original image on mouse out
-        function restoreImage2() {
-            // Replace 'original_image_path' with the path to your original image
-            document.getElementById("myImage2").src = "images/bookke.gif";
-        }
-    </script>
 </body>
 </html>
