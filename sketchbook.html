@@ -95,29 +95,32 @@
     </div>
     <a href="index.html"><----</a>
     <script>
-         document.addEventListener("DOMContentLoaded", function () {
-        let images = document.querySelectorAll(".grid-container img");
-        let loadedImages = 0;
-        let totalImages = images.length;
-
-        images.forEach(img => {
-            img.onload = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    document.getElementById("loading-screen").style.display = "none";
-                    document.querySelector(".grid-container").style.display = "grid";
-                }
-            };
-            img.src = img.src + "?t=" + new Date().getTime(); // Reset GIF per sincronizzarle
-        });
-    });
         document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".grid-container a img").forEach(img => {
-                let src = img.src;
-                img.src = src + "?t=" + new Date().getTime(); // Aggiunge un parametro unico per ogni refresh
+            let images = document.querySelectorAll(".grid-container img");
+            let loadedImages = 0;
+            let totalImages = images.length;
+    
+            function resetGIFs() {
+                images.forEach(img => {
+                    let src = img.src;
+                    img.src = "";
+                    img.src = src; // Ricarica la GIF per farla partire da zero
+                });
+            }
+    
+            images.forEach(img => {
+                img.onload = () => {
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        document.getElementById("loading-screen").style.display = "none";
+                        document.querySelector(".grid-container").style.display = "grid";
+                        resetGIFs(); // Resetta tutte le GIF prima di mostrarle
+                    }
+                };
             });
         });
     </script>
+    
     
 </body>
 </html>
