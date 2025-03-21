@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>skitsebog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(106, 0, 255);
+            color: rgb(200, 0, 255);
+            text-align: center;
+        }
+        
+        p {
+            color: rgb(235, 11, 255);
+            font-size: larger;
+        }
+
+        /* Contenitore della griglia */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colonne */
+            justify-content: center;
+            max-width: 900px; /* Limita la larghezza */
+            margin: 0 auto; /* Centra la griglia */
+            padding: 5px;
+        }
+
+        /* Immagini */
+        .grid-container a img {
+            height: 280px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        /* Effetto hover */
+        .grid-container a img:hover {
+            transform: scale(1.2);
+        }
+
+        @media screen and (max-width: 800px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 95%; /* Riduce la larghezza */
+        padding-bottom: 50px;
+    }
+    .grid-container a img {
+        max-height: 200px; /* Riduce le immagini */
+    }
+}
+
+/* Responsività: 1 colonna per schermi piccoli */
+@media screen and (max-width: 500px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 95%; /* Adatta la larghezza */
+    }
+    .grid-container a img {
+        max-height: 140px; /* Riduci ulteriormente le immagini */
+        padding-bottom: 50px;
+    }
+}
+      
+    </style>
+</head>
+<body>
+    <p>sketchbook</p>
+    <div class="grid-container">
+        <a href="skexone2.html"><img src="images/skexone.gif"></a>
+        <a href="skx2.html"><img src="images/sketx.gif"></a>
+        <a href="2324.html"><img src="images/animaz1.gif"></a>
+        <a href="sket29.html"><img src="images/sketto.gif"></a>
+        
+        
+          
+    </div>
+    <a href="index.html"><----</a>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".grid-container a img").forEach(img => {
+                let src = img.src;
+                img.src = src + "?t=" + new Date().getTime(); // Aggiunge un parametro unico per ogni refresh
+            });
+        });
+    </script>
+    
+</body>
+</html>
