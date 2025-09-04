@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Lavori</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    
+    <style>
+body{
+ background-color:rgb(199, 199, 199);
+  color: rgb(56, 16, 255);
+  font-family: Arial, Helvetica, sans-serif;
+ }
+img{
+  height: 250px;
+}
+
+
+
+.flex-container {
+            display: flex;
+            margin-top: 0px;
+            align-items:center;
+            border: 2px solid black;
+        }
+         .container {
+          display: inline-block;
+          text-align: center;
+          margin-right: 10px;
+          vertical-align: top;
+          color: rgb(0, 0, 0);;
+        }
+      
+        .container img {
+          display: block;
+          margin-bottom: 10px;
+        }
+.small-image {
+            padding-top:2px;
+            height: 30px; /* Set the height as needed */
+            display: inline;
+            
+            
+            
+        }
+
+        h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+a {
+    text-decoration: none;
+    color: black;
+  }
+
+ 
+       
+        .pulsante-rosso {
+      background-color: rgb(234, 255, 3);
+      color: rgb(0, 0, 0);
+      padding: 5px 10px;
+      border: 2px solid black;
+      cursor: pointer;
+      font-size: 16px;
+      width: fit-content;
+     
+    }      
+
+    @media screen and (min-width: 200px) and (max-width: 800px) {
+    
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 5px;
+    }
+    
+    .small-image  {
+    max-height: 15px;
+       
+        
+    }
+    }
+
+        </style>
+
+  
+</head>
+<body>
+
+</div>
+    <center>
+    <h1>LAVORI</h1>
+
+      <div class="container">
+        <a href="fanza.html" title="Ci Sono Cose che Pesano">
+          <img src="fanzapic/fanzapic17.jpg" height="250">
+        </a>
+        Ci Sono Cose <br>che Pesano
+        <br><br><br>
+      </div>
+      
+      <div class="container">
+        <a href="sich_erbrechen.html" title="Sich Erbrechen n.1">
+          <img src="sich_erbrechen/sich_erbrechen.jpg" height="250">
+        </a>
+        Sich Erbrechen n.1
+        <br><br><br>
+      </div>
+      
+      <div class="container">
+        <a href="rigor_mortis.html" title="Rigor Mortis">
+          <img src="rigor_mortis/rigor_mortis.jpg" height="250">
+        </a>
+        Rigor Mortis
+        <br><br><br>
+      </div>
+      
+      <div class="container">
+        <a href="nascondino.html" title="Nascondino">
+          <img src="nascondino/test_nascondino sporchino edizione sporca.jpg" height="250">
+        </a>
+        Nascondino
+        <br><br><br>
+      </div>
+      
+      <div class="container">
+        <a href="html_vid/index.html" title="Mosca Cieca Cortometraggio">
+          <img src="images/moscacieca.jpg" height="250">
+        </a>
+        Mosca Cieca<br> cortometraggio animato
+        <br><br><br>
+      </div>
+      
+  
+        <br><br><br><br><br><br><br><br>
+        <div id="footer">
+            <em>se sei interessat* all'acquisto di uno o più articoli<br>invia una mail a</em></div>
+            <button class="pulsante-rosso" onclick="copiaTesto()"><b>golbodrodo@gmail.com</b></button>
+      
+<br><br>
+        
+            
+<script>
+  function copiaTesto() {
+    var testoDaCopiare = "golbodrodo@gmail.com";
+    var elementoTemporaneo = document.createElement("textarea");
+    elementoTemporaneo.value = testoDaCopiare;
+    document.body.appendChild(elementoTemporaneo);
+    elementoTemporaneo.select();
+    document.execCommand("copy");
+    document.body.removeChild(elementoTemporaneo);
+    alert("Testo copiato negli appunti: " + testoDaCopiare);
+  }
+
+</script>          
+</body>
+
+</html>
