@@ -1,0 +1,82 @@
+
+<html>
+   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+    Calcolatrice
+    </title>
+<link rel="stylesheet" type="text/css" href="CSS/Calcolatrice.css"/>
+<script src="js/calcolatrice.js"></script>
+    </head>
+   <style>
+body{
+background-image:url('images2/giphy.gif');
+background-size: 570px;
+
+
+
+}
+
+
+
+   </style>
+            <body onload="inizializza_gioco()">
+               
+                    
+                
+                <center>
+                <h1>Calcolatore</h1>
+        
+                <h2>Calcola contro il Computer</h2>
+            
+                <a href="https://www.amazon.it/s?k=calcolatrici&__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=W77XML83O6G&sprefix=calcolatrici+%2Caps%2C102&ref=nb_sb_noss_2"> <img src="images2/agamennone.gif" height="200"> </a>
+                <br>
+                
+               <h2>inserisci il primo valore <input type="number"id="primo_valore"></input> <br>
+               inserisci il secondo valore <input type="number"id="secondo_valore"></input><br>
+               <button type="button"onclick="esegui_somma()">+</button>
+               <button type="button"onclick="esegui_sottrazione()">-</button>
+               <button type="button"onclick="esegui_moltiplicazione()">x</button>
+               <button type="button"onclick="esegui_divisione()">:</button></h2>
+                <br>
+                <table border ="0">
+                <tr>
+                    <td><h2>Risultato operazione: <input type="number"id="risultato_valore"></input></td>
+                    <td><img src="images2/punitni.png" height="150 px"
+                        id="imgoperazione" width="100 px" height="150 px" ></td<h2> </a> </td>
+                </tr>
+
+                </table>
+                <br>
+<a href="index.html">
+     
+                <img id="img1" onmouseover="setNewImage()" onmouseout="setOldImage()" 
+                src="images2/home.png" height="60" /></a>
+
+                <audio controls autoplay loop>
+                    <source src="audio/prop.mp3"></audio>
+                </center>
+                <script>
+                    function setNewImage()
+                    {
+                      document.getElementById('img1').src= "images2/homeapr.gif"
+                    }
+                    function setOldImage()
+                    {
+                     
+                      document.getElementById('img1').src= "images2/home.png"
+                        
+                    }</script>
+            </body>
+                
+                
+                
+                
+                
+                
+                
+                
+            
+            
+</html>
