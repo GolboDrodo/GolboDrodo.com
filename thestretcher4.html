@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <meta charset="UTF-8" />
   <title>The Stretcher</title>
   <style>
@@ -23,7 +22,6 @@
       text-align: center;
       padding-top: 20px;
       font-weight: bold;
-
     }
 
     #image-container {
@@ -39,7 +37,6 @@
       text-align: center;
     }
 
-    /* Nascondo input file */
     #file-input {
       display: none;
     }
@@ -75,14 +72,12 @@
       max-height: 60svh;
     }
 
-    /* Bordi */
     .edge { position: absolute; background: transparent; }
     .edge.top    { top: -3px; left: 0; width: 100%; height: 6px; cursor: ns-resize; }
     .edge.bottom { bottom: -3px; left: 0; width: 100%; height: 6px; cursor: ns-resize; }
     .edge.left   { top: 0; left: -3px; width: 6px; height: 100%; cursor: ew-resize; }
     .edge.right  { top: 0; right: -3px; width: 6px; height: 100%; cursor: ew-resize; }
 
-    /* Angoli */
     .corner {
       position: absolute;
       width: 12px;
@@ -198,12 +193,24 @@
       loadImage(e.dataTransfer.files[0]);
     });
 
-    // Gestione resize
+    // ----------------------------
+    // Gestione resize (mouse + touch)
+    // ----------------------------
+
+    function getClientXY(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      } else {
+        return { x: e.clientX, y: e.clientY };
+      }
+    }
+
     document.querySelectorAll(".edge, .corner").forEach(handle => {
-      handle.addEventListener("mousedown", e => {
+      function startResize(e) {
         e.preventDefault();
-        startX = e.clientX;
-        startY = e.clientY;
+        const pos = getClientXY(e);
+        startX = pos.x;
+        startY = pos.y;
         startWidth = img.clientWidth;
         startHeight = img.clientHeight;
 
@@ -218,34 +225,40 @@
 
         document.addEventListener("mousemove", resize);
         document.addEventListener("mouseup", stopResize);
-      });
+        document.addEventListener("touchmove", resize, { passive: false });
+        document.addEventListener("touchend", stopResize);
+      }
+
+      handle.addEventListener("mousedown", startResize);
+      handle.addEventListener("touchstart", startResize, { passive: false });
     });
 
     function resize(e) {
       if (!activeHandle) return;
+      const pos = getClientXY(e);
       let newWidth = startWidth;
       let newHeight = startHeight;
 
       if (activeHandle === "right") {
-        newWidth = startWidth + (e.clientX - startX);
+        newWidth = startWidth + (pos.x - startX);
       } else if (activeHandle === "left") {
-        newWidth = startWidth - (e.clientX - startX);
+        newWidth = startWidth - (pos.x - startX);
       } else if (activeHandle === "bottom") {
-        newHeight = startHeight + (e.clientY - startY);
+        newHeight = startHeight + (pos.y - startY);
       } else if (activeHandle === "top") {
-        newHeight = startHeight - (e.clientY - startY);
+        newHeight = startHeight - (pos.y - startY);
       } else if (activeHandle === "br") {
-        newWidth = startWidth + (e.clientX - startX);
-        newHeight = startHeight + (e.clientY - startY);
+        newWidth = startWidth + (pos.x - startX);
+        newHeight = startHeight + (pos.y - startY);
       } else if (activeHandle === "bl") {
-        newWidth = startWidth - (e.clientX - startX);
-        newHeight = startHeight + (e.clientY - startY);
+        newWidth = startWidth - (pos.x - startX);
+        newHeight = startHeight + (pos.y - startY);
       } else if (activeHandle === "tr") {
-        newWidth = startWidth + (e.clientX - startX);
-        newHeight = startHeight - (e.clientY - startY);
+        newWidth = startWidth + (pos.x - startX);
+        newHeight = startHeight - (pos.y - startY);
       } else if (activeHandle === "tl") {
-        newWidth = startWidth - (e.clientX - startX);
-        newHeight = startHeight - (e.clientY - startY);
+        newWidth = startWidth - (pos.x - startX);
+        newHeight = startHeight - (pos.y - startY);
       }
 
       if (newWidth > 20) img.style.width = newWidth + "px";
@@ -255,9 +268,14 @@
     function stopResize() {
       document.removeEventListener("mousemove", resize);
       document.removeEventListener("mouseup", stopResize);
+      document.removeEventListener("touchmove", resize);
+      document.removeEventListener("touchend", stopResize);
       activeHandle = null;
     }
 
+    // ----------------------------
+    // Download immagine
+    // ----------------------------
     function downloadImage() {
       if (!img.src) return;
       const canvas = document.createElement("canvas");
