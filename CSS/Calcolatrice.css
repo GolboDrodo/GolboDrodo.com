@@ -1,0 +1,104 @@
+body {
+
+    
+    background-size:100%;
+    background-repeat: repeat;
+    background-repeat:round;
+    background-color: #aca5ff;
+    font-family: Arial, Helvetica, sans-serif;
+   
+    
+    
+    
+   
+}
+    
+
+h1 {
+
+    color: #CA4B7A;
+    font-size: 45;
+    font-family:Helvetica;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom :50px;
+}
+h2 {
+
+    color:#CA4B7A;
+    font-size: 15;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    
+}
+h3 {
+
+    color:rgb(16, 15, 27);
+    font-size: 15;
+    font-style: italic;
+    font-family: Arial;
+   
+    padding-left: 300;
+    padding-right: 300
+    ;
+    
+}
+h4 {
+
+    color:rgb(16, 15, 27);
+    font-size: 14;
+    font-family: Arial;
+    text-align: center;
+    font-weight: lighter;
+    padding-bottom: 20px;
+    
+}
+div {
+
+    color:rgb(33, 5, 5);
+    font-style: italic;
+    font-family: Arial;
+    font-size:25px;
+    text-align: center;
+   
+}
+
+#pp {
+
+    color:red;
+    font-style: italic;
+    font-weight: bold;
+    font-size:20px;
+    text-align: center;
+    
+   
+}
+
+#fanza{
+    float: left;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    position:relative;
+    overflow: hidden;
+    
+
+
+}
+
+audio { display:none; }
+
+
+#ioparlo{
+    float: left;
+    padding-top: 290px;
+    padding-bottom: 50xp;
+    padding-left: 200px;
+    padding-right: 100px;
+    position:fixed;
+    overflow: hidden;
+}
+ 
+      
+    
