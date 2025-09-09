@@ -112,6 +112,24 @@ document.getElementById ("vecchio4").src="parc/potenzia4.png" ;
  function ripristina4() {
 document.getElementById ("vecchio4").src="parc/vecchio4.png" ;  
 }
+function deforma5() {
+document.getElementById ("vecchio5").src="parc/deforma5.png";
+}
+function potenzia5() {
+document.getElementById ("vecchio5").src="parc/potenza5.gif" ;   
+    }
+ function ripristina5() {
+document.getElementById ("vecchio5").src="parc/vecchio5.png" ;  
+}
+function deforma6() {
+document.getElementById ("vecchio6").src="parc/deforma6.png";
+}
+function potenzia6() {
+document.getElementById ("vecchio6").src="parc/potenza6.gif" ;   
+    }
+ function ripristina6() {
+document.getElementById ("vecchio6").src="parc/vecchio6.png" ;  
+}
 
    /*
 function antonietta() {
