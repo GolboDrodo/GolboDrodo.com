@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8" />
-  <title>The Stretcher</title>
+  <title>stretch</title>
   <style>
     body {
       margin: 0;
@@ -16,12 +15,13 @@
     }
 
     #header {
-      background: #fff;
+      background: #ffffff00;
       color: rgb(0, 13, 255);
       font-size: 24px;
       text-align: center;
       padding-top: 20px;
       font-weight: bold;
+
     }
 
     #image-container {
@@ -33,27 +33,30 @@
 
     #drag-instruction {
       color: #888;
-      font-size: 18px;
+      font-family: monospace;
+      font-size: 16px;
       text-align: center;
     }
 
+    /* Nascondo input file */
     #file-input {
       display: none;
     }
 
     .file-label {
       display: inline-block;
-      padding: 8px 16px;
-      font-size: 18px;
+      padding: 4px 10px;
+      font-size: 20px;
       cursor: pointer;
-      background-color: rgba(255, 230, 71, 0);
-      border: 1px solid #000;
-      border-radius: 12pt;
-      transition: 0.2s;
+      background-color: rgb(0, 0, 255);
+      border: 1px solid #00000000;
+      border-radius: 14pt;
+      transition: 0.5s;
       text-align: center;
+      color: white;
     }
     .file-label:hover {
-      background-color: rgb(0, 0, 255);
+      background-color: rgb(225, 0, 0);
       color: #fff;
     }
 
@@ -72,12 +75,14 @@
       max-height: 60svh;
     }
 
+    /* Bordi */
     .edge { position: absolute; background: transparent; }
     .edge.top    { top: -3px; left: 0; width: 100%; height: 6px; cursor: ns-resize; }
     .edge.bottom { bottom: -3px; left: 0; width: 100%; height: 6px; cursor: ns-resize; }
     .edge.left   { top: 0; left: -3px; width: 6px; height: 100%; cursor: ew-resize; }
     .edge.right  { top: 0; right: -3px; width: 6px; height: 100%; cursor: ew-resize; }
 
+    /* Angoli */
     .corner {
       position: absolute;
       width: 12px;
@@ -99,13 +104,13 @@
     }
 
     button {
-      padding: 8px 16px;
-      font-size: 18px;
+      padding: 4px 10px;
+      font-size: 20px;
       cursor: pointer;
       background-color: rgb(255, 230, 71);
-      border: 1px solid #000;
-      border-radius: 12pt;
-      transition: 0.2s;
+      border: 1px solid #00000000;
+      border-radius: 14pt;
+      transition: 0.5s;
     }
     button:hover {
       background-color: red;
@@ -118,11 +123,11 @@
 </head>
 <body>
 
-  <div id="header">THE STRETCHER</div>
+  <div id="header">STRETCH</div>
 
   <div id="image-container">
-    <div id="drag-instruction">Trascina un'immagine qui o scegli dal dispositivo</div>
-    <label for="file-input" class="file-label">Scegli immagine</label>
+    <div id="drag-instruction">Trascina un'immagine qui o carica dal dispositivo</div>
+    <label for="file-input" class="file-label">carica..</label>
     <input type="file" id="file-input" accept="image/*">
     <div id="image-wrapper">
       <img id="myImage" alt="Carica un'immagine" />
@@ -140,7 +145,7 @@
   </div>
 
   <div class="controls">
-    <button onclick="downloadImage()">Scarica immagine</button>
+    <button onclick="downloadImage()">scarica</button>
   </div>
   <p><a href="index.html">home</a></p>
 
@@ -193,24 +198,12 @@
       loadImage(e.dataTransfer.files[0]);
     });
 
-    // ----------------------------
-    // Gestione resize (mouse + touch)
-    // ----------------------------
-
-    function getClientXY(e) {
-      if (e.touches && e.touches.length > 0) {
-        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      } else {
-        return { x: e.clientX, y: e.clientY };
-      }
-    }
-
+    // Gestione resize
     document.querySelectorAll(".edge, .corner").forEach(handle => {
-      function startResize(e) {
+      handle.addEventListener("mousedown", e => {
         e.preventDefault();
-        const pos = getClientXY(e);
-        startX = pos.x;
-        startY = pos.y;
+        startX = e.clientX;
+        startY = e.clientY;
         startWidth = img.clientWidth;
         startHeight = img.clientHeight;
 
@@ -225,40 +218,34 @@
 
         document.addEventListener("mousemove", resize);
         document.addEventListener("mouseup", stopResize);
-        document.addEventListener("touchmove", resize, { passive: false });
-        document.addEventListener("touchend", stopResize);
-      }
-
-      handle.addEventListener("mousedown", startResize);
-      handle.addEventListener("touchstart", startResize, { passive: false });
+      });
     });
 
     function resize(e) {
       if (!activeHandle) return;
-      const pos = getClientXY(e);
       let newWidth = startWidth;
       let newHeight = startHeight;
 
       if (activeHandle === "right") {
-        newWidth = startWidth + (pos.x - startX);
+        newWidth = startWidth + (e.clientX - startX);
       } else if (activeHandle === "left") {
-        newWidth = startWidth - (pos.x - startX);
+        newWidth = startWidth - (e.clientX - startX);
       } else if (activeHandle === "bottom") {
-        newHeight = startHeight + (pos.y - startY);
+        newHeight = startHeight + (e.clientY - startY);
       } else if (activeHandle === "top") {
-        newHeight = startHeight - (pos.y - startY);
+        newHeight = startHeight - (e.clientY - startY);
       } else if (activeHandle === "br") {
-        newWidth = startWidth + (pos.x - startX);
-        newHeight = startHeight + (pos.y - startY);
+        newWidth = startWidth + (e.clientX - startX);
+        newHeight = startHeight + (e.clientY - startY);
       } else if (activeHandle === "bl") {
-        newWidth = startWidth - (pos.x - startX);
-        newHeight = startHeight + (pos.y - startY);
+        newWidth = startWidth - (e.clientX - startX);
+        newHeight = startHeight + (e.clientY - startY);
       } else if (activeHandle === "tr") {
-        newWidth = startWidth + (pos.x - startX);
-        newHeight = startHeight - (pos.y - startY);
+        newWidth = startWidth + (e.clientX - startX);
+        newHeight = startHeight - (e.clientY - startY);
       } else if (activeHandle === "tl") {
-        newWidth = startWidth - (pos.x - startX);
-        newHeight = startHeight - (pos.y - startY);
+        newWidth = startWidth - (e.clientX - startX);
+        newHeight = startHeight - (e.clientY - startY);
       }
 
       if (newWidth > 20) img.style.width = newWidth + "px";
@@ -268,14 +255,9 @@
     function stopResize() {
       document.removeEventListener("mousemove", resize);
       document.removeEventListener("mouseup", stopResize);
-      document.removeEventListener("touchmove", resize);
-      document.removeEventListener("touchend", stopResize);
       activeHandle = null;
     }
 
-    // ----------------------------
-    // Download immagine
-    // ----------------------------
     function downloadImage() {
       if (!img.src) return;
       const canvas = document.createElement("canvas");
