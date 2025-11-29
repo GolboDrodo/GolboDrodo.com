@@ -2,8 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piano Synth + Delay</title>
+    <title>Piano Pro Clean Interface</title>
     <style>
         body { 
             font-family: 'Segoe UI', sans-serif; 
@@ -11,9 +10,9 @@
             flex-direction: column; 
             align-items: center; 
             gap: 20px; 
-            padding-top: 20px;
+            padding-top: 30px;
             user-select: none; 
-            background-color: #e8e8e8;
+            background-color: #e0e0e0;
             color: #333;
         }
 
@@ -29,94 +28,133 @@
             text-align: center;
             font-size: 14px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             text-transform: uppercase;
+            transition: color 0.3s, border-color 0.3s;
         }
 
-        /* --- GRIGLIA 4x4 --- */
+        /* --- GRIGLIA 4x3 --- */
         .container {
             display: grid;
             grid-template-columns: repeat(4, 100px); 
-            gap: 10px;                               
+            gap: 12px;                               
         }
 
         .grid-cell {
             width: 100px;
             height: 90px;
-            border-radius: 6px;
+            border-radius: 8px;
             background-color: #fff; 
-            border: 2px solid #bbb;
-            box-shadow: 0 3px 0 #999;
+            border: 2px solid #ccc;
+            box-shadow: 0 4px #aaa;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: transform 0.05s, box-shadow 0.05s;
+            transition: transform 0.05s, box-shadow 0.05s, border-color 0.3s;
         }
 
         button.grid-cell { cursor: pointer; color: #444; font-weight: bold; }
         
         button.grid-cell:active, button.active-key {
             transform: translateY(3px);
-            box-shadow: 0 0 0 #999;
+            box-shadow: 0 1px #999;
         }
 
-        /* Note */
+        /* Note Standard */
         button.note-btn { border-bottom: 4px solid #007bff; }
         button.note-btn.active-key { background-color: #007bff; color: white; border-color: #007bff; }
         
-        button.sharp-mode { background-color: #e0b0ff; border-bottom-color: #9932cc; }
-        button.sharp-mode.no-sharp { opacity: 0.5; background-color: #ccc; }
+        /* SCALE COLORS */
+        button.scale-sharp { background-color: #fffacd; border-bottom-color: #ffcc00; }
+        button.scale-sharp.active-key { background-color: #ffcc00; }
+        
+        button.scale-flat { background-color: #e0ffff; border-bottom-color: #00ced1; }
+        button.scale-flat.active-key { background-color: #00ced1; }
+
+        /* Shift Mode */
+        button.sharp-mode { background-color: #e0b0ff; border-bottom-color: #9932cc; color: #333; }
 
         /* Funzioni */
-        .func-btn { background-color: #eee; font-size: 12px; }
-        button.oct-low { background-color: #cce5ff; border-color: #004085; color: #004085; }
-        button.oct-high { background-color: #d4edda; border-color: #155724; color: #155724; }
+        .func-btn { background-color: #f4f4f4; font-size: 12px; border-bottom: 4px solid #999; }
+        button.oct-low { background-color: #cce5ff; border-bottom-color: #004085; color: #004085; }
+        button.oct-high { background-color: #d4edda; border-bottom-color: #155724; color: #155724; }
 
-        /* EFFETTI ATTIVI */
-        button.fx-active-dist { background-color: #ffcccc; border-color: #cc0000; color: #cc0000; box-shadow: 0 0 10px #ff0000; }
-        button.fx-active-crush { background-color: #ffe5cc; border-color: #e67300; color: #e67300; box-shadow: 0 0 10px #ff8000; }
+        /* --- KNOBS (PULITI) --- */
+        .knob-cell { background-color: #f0f0f0; cursor: ns-resize; border: 2px solid #bbb; }
         
-        /* DELAY STYLE (Viola/Blu Elettrico) */
-        button.fx-active-delay { background-color: #e0ccff; border-color: #6600cc; color: #6600cc; box-shadow: 0 0 10px #8800ff; }
-
-        /* Knobs */
-        .knob-cell { background-color: #f4f4f4; cursor: ns-resize; }
         .knob-circle {
-            width: 45px; height: 45px;
+            width: 60px; height: 60px; /* Leggermente più grandi per riempire lo spazio */
             border-radius: 50%;
-            background: conic-gradient(#fff, #bbb, #fff);
-            border: 2px solid #555;
+            background: conic-gradient(#eee, #999, #eee);
+            border: 4px solid #555;
             position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 5px rgba(0,0,0,0.2);
             pointer-events: none;
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        
         .knob-indicator {
             position: absolute; top: 4px; left: 50%;
-            width: 3px; height: 12px;
+            width: 5px; height: 18px;
             transform: translateX(-50%);
             border-radius: 2px;
             background-color: #333;
+            transition: background-color 0.3s;
         }
 
-        .k-dist { border-color: #ffaaaa; } .k-dist .knob-indicator { background-color: #cc0000; }
-        .k-crush { border-color: #ffcc99; } .k-crush .knob-indicator { background-color: #e67300; }
+        /* Minor Mode Style */
+        .minor-mode #knob-scale-rotate .knob-indicator { background-color: #ff0000; }
+        .minor-mode #disp-scale { color: #ff4444 !important; }
+        .minor-mode .synth-display { border-color: #662222; }
+        .minor-mode #knob-scale { border-color: #ffcccc; }
 
-        .label-small { font-size: 10px; color: #777; margin-top: 5px; font-weight: bold; }
+        /* Major Mode Style */
+        #knob-scale-rotate .knob-indicator { background-color: #007bff; }
+
+        /* Shift Visual Feedback su Knob Scale */
+        .show-shift #knob-scale { border-color: #9932cc; background-color: #e0b0ff; }
+
         .shortcuts { font-size: 10px; color: #999; position: absolute; top: 5px; left: 5px;}
         .note-main { font-size: 1.4em; }
 
-        p { color: #555; font-size: 0.9em; margin-top: 10px; text-align: center;}
+        /* --- LEGENDA SOTTO --- */
+        .controls-legend {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-size: 0.9em;
+            color: #555;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            max-width: 400px;
+        }
+        .legend-title { font-weight: bold; color: #333; display: block; margin-bottom: 5px; border-bottom: 1px solid #eee;}
+        kbd {
+            background-color: #eee;
+            border-radius: 3px;
+            border: 1px solid #b4b4b4;
+            box-shadow: 0 1px 1px rgba(0,0,0,.2), 0 2px 0 0 rgba(255,255,255,.7) inset;
+            color: #333;
+            display: inline-block;
+            font-size: .85em;
+            font-weight: 700;
+            line-height: 1;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
     </style>
 </head>
-<body>
+<body id="main-body">
 
     <div class="synth-display">
-        <span id="disp-main">TRIANGLE</span>
-        <span id="disp-val">READY</span>
+        <span id="disp-scale" style="color:white">C MAJOR</span>
+        <span id="disp-val">DUR: 0.5s</span>
     </div>
 
     <div class="container">
@@ -132,228 +170,227 @@
         
         <button id="btn-octave" class="grid-cell func-btn"><span class="shortcuts">9</span>OCTAVE</button>
         <button id="btn-inst" class="grid-cell func-btn"><span class="shortcuts">0</span>WAVE</button>
-        <button id="btn-fx-dist" class="grid-cell func-btn"><span class="shortcuts">D</span>DISTORT</button>
-        <button id="btn-fx-crush" class="grid-cell func-btn"><span class="shortcuts">B</span>CRUSH</button>
-
+        
         <div id="knob-dur" class="grid-cell knob-cell" data-type="dur">
-            <div class="knob-circle k-dur"><div class="knob-indicator"></div></div>
-            <span class="label-small">DURATION</span>
+            <div class="knob-circle" id="knob-dur-rotate"><div class="knob-indicator"></div></div>
         </div>
 
-        <div id="knob-dist" class="grid-cell knob-cell" data-type="dist">
-            <div class="knob-circle k-dist"><div class="knob-indicator"></div></div>
-            <span class="label-small">DRIVE</span>
+        <div id="knob-scale" class="grid-cell knob-cell" data-type="scale">
+            <div class="knob-circle" id="knob-scale-rotate"><div class="knob-indicator"></div></div>
         </div>
-
-        <div id="knob-crush" class="grid-cell knob-cell" data-type="crush">
-            <div class="knob-circle k-crush"><div class="knob-indicator"></div></div>
-            <span class="label-small">BITS</span>
-        </div>
-
-        <button id="btn-fx-delay" class="grid-cell func-btn">
-            <span class="shortcuts">← / →</span>
-            DELAY ECHO
-        </button>
     </div>
 
-    <p>
-        <b>Shift</b>: Diesis (#) | <b>Knobs</b>: Mouse Su/Giù<br>
-        <b>Freccette ←/→</b>: Velocità Eco
-    </p>
+    <div class="controls-legend">
+        <span class="legend-title">CONTROLLI</span>
+        <b>Manopola SX</b> (<kbd>←</kbd> / <kbd>→</kbd>): Durata Nota<br>
+        <b>Manopola DX</b> (<kbd>↑</kbd> / <kbd>↓</kbd>): Seleziona Scala (Circle of Fifths)<br>
+        <kbd>+</kbd> Modo Maggiore | <kbd>-</kbd> Modo Minore<br>
+        <kbd>Shift</kbd> (Hold): Inverti Modo (Maj ↔ Min)<br>
+        <kbd>0</kbd> Cambia Strumento | <kbd>9</kbd> Cambia Ottava
+    </div>
 
     <script>
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
-        
-        // --- MASTER BUS ---
         const masterGain = audioCtx.createGain();
         masterGain.gain.value = 0.5;
         masterGain.connect(audioCtx.destination);
 
-        // --- NODI EFFETTI FISSI ---
-        
-        // 1. Distorsione
-        const distNode = audioCtx.createWaveShaper();
-        distNode.curve = makeDistortionCurve(0);
-        distNode.oversample = '4x';
-        distNode.connect(masterGain);
-
-        // 2. Bitcrusher
-        const bufferSize = 4096;
-        const crushNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
-        let bits = 16;
-        crushNode.onaudioprocess = function(e) {
-            const input = e.inputBuffer.getChannelData(0);
-            const output = e.outputBuffer.getChannelData(0);
-            const step = Math.pow(0.5, bits);
-            for (let i = 0; i < input.length; i++) {
-                output[i] = Math.floor(input[i] / step) * step;
-            }
-        };
-        crushNode.connect(distNode);
-
-        // 3. Delay System (Send/Return)
-        const delayNode = audioCtx.createDelay(5.0); // Max 5 secondi
-        delayNode.delayTime.value = 0.3; // Default 300ms
-        
-        const feedbackNode = audioCtx.createGain();
-        feedbackNode.gain.value = 0.4; // 40% feedback (ripetizioni)
-
-        // Cablaggio Delay: Delay -> Feedback -> Delay (Loop)
-        delayNode.connect(feedbackNode);
-        feedbackNode.connect(delayNode);
-        
-        // Uscita Delay -> Master (Mix)
-        delayNode.connect(masterGain);
-
-        // --- VARIABILI STATO ---
-        let isDistActive = false;
-        let isCrushActive = false;
-        let isDelayActive = false; // Nuovo stato
-
-        let octaveIndex = 0;
+        // --- STATI ---
+        let octaveIndex = 0; 
         let isShiftPressed = false; 
-        
         let valDur = 0.2; 
-        let valDist = 0;
-        let valCrush = 0;
-        let delayTimeVal = 0.3; // Valore corrente delay
+        let isBaseMinorMode = false; // Il modo impostato dal controller (senza shift)
+
+        // --- SCALE ENGINE ---
+        let scaleIndex = 0; 
+        const minScale = -7;
+        const maxScale = 7;
+
+        // Nomi Radici
+        const rootNames = {
+            0: "C", 1: "G", 2: "D", 3: "A", 4: "E", 5: "B", 6: "F#", 7: "C#",
+            "-1": "F", "-2": "Bb", "-3": "Eb", "-4": "Ab", "-5": "Db", "-6": "Gb", "-7": "Cb"
+        };
 
         const waveforms = ['triangle', 'sine', 'square', 'sawtooth'];
-        const waveLabels = ['TRI', 'SINE', 'SQR', 'SAW'];
+        const waveLabels = ['TRIANGLE', 'SINE', 'SQUARE', 'SAWTOOTH'];
         let waveIndex = 0;
         const SEMITONE_RATIO = 1.059463; 
         
-        const dispMain = document.getElementById('disp-main');
+        // DOM
+        const dispScale = document.getElementById('disp-scale');
         const dispVal = document.getElementById('disp-val');
+        const knobScaleRotate = document.getElementById('knob-scale-rotate');
+        const knobDurRotate = document.getElementById('knob-dur-rotate');
+        const mainBody = document.getElementById('main-body');
+        const knobScaleContainer = document.getElementById('knob-scale');
 
-        function makeDistortionCurve(amount) {
-            const k = typeof amount === 'number' ? amount : 50;
-            const n_samples = 44100;
-            const curve = new Float32Array(n_samples);
-            const deg = Math.PI / 180;
-            for (let i = 0; i < n_samples; ++i) {
-                const x = i * 2 / n_samples - 1;
-                curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-            }
-            return curve;
+        // --- LOGICA MODALITÀ (XOR) ---
+        function isEffectiveMinor() {
+            return (isBaseMinorMode !== isShiftPressed);
         }
 
-        function updateFX() {
-            // Distorsione
-            const distAmount = isDistActive ? valDist * 400 : 0;
-            distNode.curve = makeDistortionCurve(distAmount);
-            // Bitcrush
-            bits = isCrushActive ? 16 - (valCrush * 14) : 16;
-            // Delay Time
-            delayNode.delayTime.linearRampToValueAtTime(delayTimeVal, audioCtx.currentTime + 0.1);
+        // --- LOGICA NOTE ---
+        function getNoteModifier(noteName, sIdx) {
+            let effectiveIndex = sIdx;
+            if (isEffectiveMinor()) {
+                effectiveIndex -= 3; 
+            }
+
+            const sharpsOrder = ['FA', 'DO', 'SOL', 'RE', 'LA', 'MI', 'SI'];
+            const flatsOrder  = ['SI', 'MI', 'LA', 'RE', 'SOL', 'DO', 'FA']; 
+            let mod = 0; 
+
+            if (effectiveIndex > 0) {
+                for (let i = 0; i < effectiveIndex; i++) {
+                    let target = sharpsOrder[i];
+                    if (noteName === target) mod = 1;
+                    if (target === 'DO' && noteName === 'DO_HIGH') mod = 1;
+                }
+            }
+            else if (effectiveIndex < 0) {
+                let count = Math.abs(effectiveIndex);
+                for (let i = 0; i < count; i++) {
+                    let target = flatsOrder[i];
+                    if (noteName === target) mod = -1;
+                    if (target === 'DO' && noteName === 'DO_HIGH') mod = -1;
+                }
+            }
+            return mod;
         }
 
         function playNote(baseFreq, noteName) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
 
             let freq = baseFreq;
-            if (isShiftPressed && noteName !== 'MI' && noteName !== 'SI') freq *= SEMITONE_RATIO;
-            const modes = [1, 0.5, 2];
+            const mod = getNoteModifier(noteName, scaleIndex);
+            
+            if (mod === 1) freq *= SEMITONE_RATIO; 
+            if (mod === -1) freq /= SEMITONE_RATIO; 
+            
+            const modes = [1, 0.5, 2]; 
             freq *= modes[octaveIndex];
 
             const osc = audioCtx.createOscillator();
             const noteGain = audioCtx.createGain();
-            
             osc.type = waveforms[waveIndex];
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             
             const realDuration = 0.1 + (valDur * 2.9);
-
             noteGain.gain.setValueAtTime(0.4, audioCtx.currentTime); 
             noteGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + realDuration);
             
-            // ROUTING
             osc.connect(noteGain);
-            
-            // 1. Dry Signal Chain (con o senza effetti insert)
-            if (isCrushActive) {
-                noteGain.connect(crushNode);
-            } else {
-                noteGain.connect(distNode);
-            }
-
-            // 2. Delay Send (Se attivo, mandiamo il segnale anche al Delay)
-            if (isDelayActive) {
-                noteGain.connect(delayNode);
-            }
-            
+            noteGain.connect(masterGain);
             osc.start(audioCtx.currentTime);
             osc.stop(audioCtx.currentTime + realDuration);
             
             setTimeout(() => { osc.disconnect(); noteGain.disconnect(); }, realDuration * 1000 + 100);
         }
 
-        // --- GESTIONE CONTROLLI ---
+        // --- UI ---
+        function updateUI() {
+            const currentMinor = isEffectiveMinor();
+            let root = rootNames[scaleIndex];
+            if (!root) root = "?";
 
-        function toggleFX(type) {
-            if (type === 'dist') {
-                isDistActive = !isDistActive;
-                document.getElementById('btn-fx-dist').classList.toggle('fx-active-dist', isDistActive);
-                dispVal.textContent = isDistActive ? "DIST: ON" : "DIST: OFF";
-            } else if (type === 'crush') {
-                isCrushActive = !isCrushActive;
-                document.getElementById('btn-fx-crush').classList.toggle('fx-active-crush', isCrushActive);
-                dispVal.textContent = isCrushActive ? "CRUSH: ON" : "CRUSH: OFF";
-            } else if (type === 'delay') {
-                isDelayActive = !isDelayActive;
-                document.getElementById('btn-fx-delay').classList.toggle('fx-active-delay', isDelayActive);
-                dispVal.textContent = isDelayActive ? "DELAY: ON" : "DELAY: OFF";
+            // Gestione visuale MINORE / MAGGIORE
+            if (currentMinor) {
+                mainBody.classList.add('minor-mode');
+                dispScale.textContent = `${root} MINOR`;
+            } else {
+                mainBody.classList.remove('minor-mode');
+                dispScale.textContent = `${root} MAJOR`;
             }
-            updateFX();
+
+            // Indicatore Shift (Bordo Viola sul Knob Scale)
+            if (isShiftPressed) mainBody.classList.add('show-shift');
+            else mainBody.classList.remove('show-shift');
+
+            // Colore testo display
+            if (!currentMinor) {
+                if (scaleIndex === 0) dispScale.style.color = "#fff"; 
+                else if (scaleIndex > 0) dispScale.style.color = "#ffcc00"; 
+                else dispScale.style.color = "#00ced1"; 
+            }
+
+            const deg = scaleIndex * 18; 
+            knobScaleRotate.style.transform = `rotate(${deg}deg)`;
+
+            // Aggiorna Tasti
+            document.querySelectorAll('.note-btn').forEach(btn => {
+                const name = btn.dataset.note;
+                const span = btn.querySelector('.note-main');
+                
+                btn.classList.remove('scale-sharp', 'scale-flat');
+
+                const mod = getNoteModifier(name, scaleIndex);
+                
+                if (mod === 1) {
+                    btn.classList.add('scale-sharp');
+                    let label = name.replace('_HIGH','↑') + '#';
+                    if (name === 'MI') label = 'MI#'; if (name === 'SI') label = 'SI#';
+                    span.textContent = label;
+                } 
+                else if (mod === -1) {
+                    btn.classList.add('scale-flat');
+                    let label = name.replace('_HIGH','↑') + 'b';
+                    if (name === 'FA') label = 'FAb'; if (name === 'DO'||name==='DO_HIGH') label = 'DOb';
+                    span.textContent = label;
+                } 
+                else {
+                    span.textContent = name.replace('_HIGH','↑');
+                }
+            });
         }
 
-        function changeDelayTime(delta) {
-            delayTimeVal += delta;
-            // Limiti: min 0.05s (50ms) max 1.5s
-            if (delayTimeVal < 0.05) delayTimeVal = 0.05;
-            if (delayTimeVal > 1.5) delayTimeVal = 1.5;
-            
-            updateFX();
-            dispVal.textContent = `ECHO: ${delayTimeVal.toFixed(2)}s`;
+        function updateDurationUI() {
+            const sec = 0.1 + (valDur * 2.9);
+            dispVal.textContent = "DUR: " + sec.toFixed(1) + "s";
+            const deg = -135 + (valDur * 270);
+            knobDurRotate.style.transform = `rotate(${deg}deg)`;
         }
 
-        // --- KNOB LOGIC ---
-        let activeKnob = null; let startY = 0; let startKnobVal = 0;
+        function setBaseMode(mode) {
+            if (mode === 'major') isBaseMinorMode = false;
+            if (mode === 'minor') isBaseMinorMode = true;
+            if (mode === 'toggle') isBaseMinorMode = !isBaseMinorMode;
+            updateUI();
+        }
+
+        // --- KNOB MOUSE LOGIC ---
+        let activeKnob = null; let startY = 0; let startKnobVal = 0; let startScaleVal = 0; 
 
         document.querySelectorAll('.knob-cell').forEach(k => {
             k.addEventListener('mousedown', (e) => {
-                activeKnob = k; startY = e.clientY;
-                const type = k.dataset.type;
-                if(type === 'dur') startKnobVal = valDur;
-                if(type === 'dist') startKnobVal = valDist;
-                if(type === 'crush') startKnobVal = valCrush;
-                document.body.style.cursor = 'ns-resize';
-                e.preventDefault();
+                activeKnob = k; startY = e.clientY; 
+                document.body.style.cursor = 'ns-resize'; e.preventDefault();
+                if (k.dataset.type === 'dur') startKnobVal = valDur;
+                if (k.dataset.type === 'scale') startScaleVal = scaleIndex;
+            });
+            k.addEventListener('dblclick', (e) => {
+                if (k.dataset.type === 'scale') setBaseMode('toggle');
             });
         });
 
         window.addEventListener('mousemove', (e) => {
             if (!activeKnob) return;
-            const delta = (startY - e.clientY) * 0.01; 
-            let newVal = Math.max(0, Math.min(1, startKnobVal + delta)); 
-            
+            const deltaY = startY - e.clientY; 
             const type = activeKnob.dataset.type;
-            const circle = activeKnob.querySelector('.knob-circle');
-            
-            if(type === 'dur') {
-                valDur = newVal;
-                dispVal.textContent = "DUR: " + (0.1 + valDur*2.9).toFixed(1) + "s";
-            } else if(type === 'dist') {
-                valDist = newVal; updateFX();
-                dispVal.textContent = "DRIVE: " + Math.round(valDist*100) + "%";
-            } else if(type === 'crush') {
-                valCrush = newVal; updateFX();
-                dispVal.textContent = "BITS: " + (16 - (valCrush*14)).toFixed(1);
-            }
 
-            const deg = -135 + (newVal * 270);
-            circle.style.transform = `rotate(${deg}deg)`;
+            if (type === 'dur') {
+                const delta = deltaY * 0.01;
+                valDur = Math.max(0, Math.min(1, startKnobVal + delta));
+                updateDurationUI();
+            } 
+            if (type === 'scale') {
+                const steps = Math.floor(deltaY / 20); 
+                let newIdx = startScaleVal + steps;
+                if (newIdx > maxScale) newIdx = maxScale;
+                if (newIdx < minScale) newIdx = minScale;
+                if (newIdx !== scaleIndex) { scaleIndex = newIdx; updateUI(); }
+            }
         });
 
         window.addEventListener('mouseup', () => { activeKnob = null; document.body.style.cursor = 'default'; });
@@ -369,9 +406,12 @@
             if(octaveIndex === 2) btn.classList.add('oct-high');
         }
 
-        function cycleWave() {
-            waveIndex = (waveIndex + 1) % waveforms.length;
-            dispMain.textContent = waveLabels[waveIndex];
+        function cycleWave(dir) {
+            waveIndex += dir;
+            if (waveIndex >= waveforms.length) waveIndex = 0;
+            if (waveIndex < 0) waveIndex = waveforms.length - 1;
+            const btn = document.getElementById('btn-inst');
+            btn.innerHTML = `<span class="shortcuts">0</span>${waveLabels[waveIndex]}`;
         }
 
         function triggerVisual(btn) {
@@ -380,26 +420,7 @@
             setTimeout(() => btn.classList.remove('active-key'), 100);
         }
 
-        function updateShiftUI() {
-            document.querySelectorAll('.note-btn').forEach(btn => {
-                const name = btn.dataset.note;
-                const span = btn.querySelector('.note-main');
-                btn.classList.remove('sharp-mode', 'no-sharp');
-                if (isShiftPressed) {
-                    if (name.includes('MI') || name.includes('SI')) {
-                        btn.classList.add('sharp-mode', 'no-sharp');
-                        span.textContent = name.replace('_HIGH','↑');
-                    } else {
-                        btn.classList.add('sharp-mode');
-                        span.textContent = name.replace('_HIGH','↑') + '#';
-                    }
-                } else {
-                    span.textContent = name.replace('_HIGH','↑');
-                }
-            });
-        }
-
-        // --- INIT LISTENER ---
+        // --- INIT KEYS ---
         const notes = { DO: 261.63, RE: 293.66, MI: 329.63, FA: 349.23, SOL: 392.00, LA: 440.00, SI: 493.88, DO_HIGH: 523.25 };
         const keys = ['DO','RE','MI','FA','SOL','LA','SI','DO_HIGH'];
         const ids = ['btn-do','btn-re','btn-mi','btn-fa','btn-sol','btn-la','btn-si','btn-do-high'];
@@ -407,14 +428,11 @@
         ids.forEach((id, i) => document.getElementById(id).addEventListener('mousedown', () => playNote(notes[keys[i]], keys[i])));
 
         document.getElementById('btn-octave').addEventListener('click', cycleOctave);
-        document.getElementById('btn-inst').addEventListener('click', cycleWave);
-        document.getElementById('btn-fx-dist').addEventListener('click', () => toggleFX('dist'));
-        document.getElementById('btn-fx-crush').addEventListener('click', () => toggleFX('crush'));
-        document.getElementById('btn-fx-delay').addEventListener('click', () => toggleFX('delay'));
+        document.getElementById('btn-inst').addEventListener('click', () => cycleWave(1));
 
         document.addEventListener('keydown', (e) => {
-            if (e.repeat) return;
-            if (e.key === 'Shift') { isShiftPressed = true; updateShiftUI(); return; }
+            if (e.repeat) return; 
+            if (e.key === 'Shift') { isShiftPressed = true; updateUI(); return; }
 
             const map = { 'Digit1': 0, 'Digit2': 1, 'Digit3': 2, 'Digit4': 3, 'Digit5': 4, 'Digit6': 5, 'Digit7': 6, 'Digit8': 7 };
             if (map[e.code] !== undefined) {
@@ -424,26 +442,42 @@
             }
 
             if(e.code === 'Digit9') { cycleOctave(); triggerVisual(document.getElementById('btn-octave')); }
-            if(e.code === 'Digit0') { cycleWave(); triggerVisual(document.getElementById('btn-inst')); }
-            if(e.code === 'KeyD') { toggleFX('dist'); triggerVisual(document.getElementById('btn-fx-dist')); }
-            if(e.code === 'KeyB') { toggleFX('crush'); triggerVisual(document.getElementById('btn-fx-crush')); }
-            
-            // TASTI FRECCIA: REGOLAZIONE DELAY
-            if(e.code === 'ArrowLeft') { 
+            if(e.code === 'Digit0') { cycleWave(1); triggerVisual(document.getElementById('btn-inst')); }
+
+            // FRECCE SU/GIU (SCALA)
+            if (e.code === 'ArrowUp') {
                 e.preventDefault();
-                changeDelayTime(-0.05); 
-                triggerVisual(document.getElementById('btn-fx-delay'));
+                if (scaleIndex < maxScale) { scaleIndex++; updateUI(); }
             }
-            if(e.code === 'ArrowRight') { 
+            if (e.code === 'ArrowDown') {
                 e.preventDefault();
-                changeDelayTime(0.05); 
-                triggerVisual(document.getElementById('btn-fx-delay'));
+                if (scaleIndex > minScale) { scaleIndex--; updateUI(); }
             }
+
+            // FRECCE SX/DX (DURATA)
+            if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                valDur = Math.min(1, valDur + 0.05);
+                updateDurationUI();
+            }
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                valDur = Math.max(0, valDur - 0.05);
+                updateDurationUI();
+            }
+
+            // PLUS / MINUS (Maggiore/Minore)
+            if (e.key === '+' || e.code === 'NumpadAdd') setBaseMode('major');
+            if (e.key === '-' || e.code === 'NumpadSubtract') setBaseMode('minor');
         });
 
         document.addEventListener('keyup', (e) => {
-            if (e.key === 'Shift') { isShiftPressed = false; updateShiftUI(); }
+            if (e.key === 'Shift') { isShiftPressed = false; updateUI(); }
         });
+
+        // Init
+        updateDurationUI();
+        updateUI();
 
     </script>
 </body> 
