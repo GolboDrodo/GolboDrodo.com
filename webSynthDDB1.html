@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Synth + Delay</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 20px; 
+            padding-top: 20px;
+            user-select: none; 
+            background-color: #e8e8e8;
+            color: #333;
+        }
+
+        /* --- DISPLAY --- */
+        .synth-display {
+            background-color: #222;
+            color: #0f0; 
+            font-family: 'Courier New', monospace;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 4px solid #444;
+            width: 380px; 
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+        }
+
+        /* --- GRIGLIA 4x4 --- */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px); 
+            gap: 10px;                               
+        }
+
+        .grid-cell {
+            width: 100px;
+            height: 90px;
+            border-radius: 6px;
+            background-color: #fff; 
+            border: 2px solid #bbb;
+            box-shadow: 0 3px 0 #999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.05s, box-shadow 0.05s;
+        }
+
+        button.grid-cell { cursor: pointer; color: #444; font-weight: bold; }
+        
+        button.grid-cell:active, button.active-key {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #999;
+        }
+
+        /* Note */
+        button.note-btn { border-bottom: 4px solid #007bff; }
+        button.note-btn.active-key { background-color: #007bff; color: white; border-color: #007bff; }
+        
+        button.sharp-mode { background-color: #e0b0ff; border-bottom-color: #9932cc; }
+        button.sharp-mode.no-sharp { opacity: 0.5; background-color: #ccc; }
+
+        /* Funzioni */
+        .func-btn { background-color: #eee; font-size: 12px; }
+        button.oct-low { background-color: #cce5ff; border-color: #004085; color: #004085; }
+        button.oct-high { background-color: #d4edda; border-color: #155724; color: #155724; }
+
+        /* EFFETTI ATTIVI */
+        button.fx-active-dist { background-color: #ffcccc; border-color: #cc0000; color: #cc0000; box-shadow: 0 0 10px #ff0000; }
+        button.fx-active-crush { background-color: #ffe5cc; border-color: #e67300; color: #e67300; box-shadow: 0 0 10px #ff8000; }
+        
+        /* DELAY STYLE (Viola/Blu Elettrico) */
+        button.fx-active-delay { background-color: #e0ccff; border-color: #6600cc; color: #6600cc; box-shadow: 0 0 10px #8800ff; }
+
+        /* Knobs */
+        .knob-cell { background-color: #f4f4f4; cursor: ns-resize; }
+        .knob-circle {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: conic-gradient(#fff, #bbb, #fff);
+            border: 2px solid #555;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+        .knob-indicator {
+            position: absolute; top: 4px; left: 50%;
+            width: 3px; height: 12px;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            background-color: #333;
+        }
+
+        .k-dist { border-color: #ffaaaa; } .k-dist .knob-indicator { background-color: #cc0000; }
+        .k-crush { border-color: #ffcc99; } .k-crush .knob-indicator { background-color: #e67300; }
+
+        .label-small { font-size: 10px; color: #777; margin-top: 5px; font-weight: bold; }
+        .shortcuts { font-size: 10px; color: #999; position: absolute; top: 5px; left: 5px;}
+        .note-main { font-size: 1.4em; }
+
+        p { color: #555; font-size: 0.9em; margin-top: 10px; text-align: center;}
+    </style>
+</head>
+<body>
+
+    <div class="synth-display">
+        <span id="disp-main">TRIANGLE</span>
+        <span id="disp-val">READY</span>
+    </div>
+
+    <div class="container">
+        <button id="btn-do" class="grid-cell note-btn" data-note="DO"><span class="shortcuts">1</span><span class="note-main">DO</span></button>
+        <button id="btn-re" class="grid-cell note-btn" data-note="RE"><span class="shortcuts">2</span><span class="note-main">RE</span></button>
+        <button id="btn-mi" class="grid-cell note-btn" data-note="MI"><span class="shortcuts">3</span><span class="note-main">MI</span></button>
+        <button id="btn-fa" class="grid-cell note-btn" data-note="FA"><span class="shortcuts">4</span><span class="note-main">FA</span></button>
+
+        <button id="btn-sol" class="grid-cell note-btn" data-note="SOL"><span class="shortcuts">5</span><span class="note-main">SOL</span></button>
+        <button id="btn-la" class="grid-cell note-btn" data-note="LA"><span class="shortcuts">6</span><span class="note-main">LA</span></button>
+        <button id="btn-si" class="grid-cell note-btn" data-note="SI"><span class="shortcuts">7</span><span class="note-main">SI</span></button>
+        <button id="btn-do-high" class="grid-cell note-btn" data-note="DO_HIGH"><span class="shortcuts">8</span><span class="note-main">DO ↑</span></button>
+        
+        <button id="btn-octave" class="grid-cell func-btn"><span class="shortcuts">9</span>OCTAVE</button>
+        <button id="btn-inst" class="grid-cell func-btn"><span class="shortcuts">0</span>WAVE</button>
+        <button id="btn-fx-dist" class="grid-cell func-btn"><span class="shortcuts">D</span>DISTORT</button>
+        <button id="btn-fx-crush" class="grid-cell func-btn"><span class="shortcuts">B</span>CRUSH</button>
+
+        <div id="knob-dur" class="grid-cell knob-cell" data-type="dur">
+            <div class="knob-circle k-dur"><div class="knob-indicator"></div></div>
+            <span class="label-small">DURATION</span>
+        </div>
+
+        <div id="knob-dist" class="grid-cell knob-cell" data-type="dist">
+            <div class="knob-circle k-dist"><div class="knob-indicator"></div></div>
+            <span class="label-small">DRIVE</span>
+        </div>
+
+        <div id="knob-crush" class="grid-cell knob-cell" data-type="crush">
+            <div class="knob-circle k-crush"><div class="knob-indicator"></div></div>
+            <span class="label-small">BITS</span>
+        </div>
+
+        <button id="btn-fx-delay" class="grid-cell func-btn">
+            <span class="shortcuts">← / →</span>
+            DELAY ECHO
+        </button>
+    </div>
+
+    <p>
+        <b>Shift</b>: Diesis (#) | <b>Knobs</b>: Mouse Su/Giù<br>
+        <b>Freccette ←/→</b>: Velocità Eco
+    </p>
+
+    <script>
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+        
+        // --- MASTER BUS ---
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.5;
+        masterGain.connect(audioCtx.destination);
+
+        // --- NODI EFFETTI FISSI ---
+        
+        // 1. Distorsione
+        const distNode = audioCtx.createWaveShaper();
+        distNode.curve = makeDistortionCurve(0);
+        distNode.oversample = '4x';
+        distNode.connect(masterGain);
+
+        // 2. Bitcrusher
+        const bufferSize = 4096;
+        const crushNode = audioCtx.createScriptProcessor(bufferSize, 1, 1);
+        let bits = 16;
+        crushNode.onaudioprocess = function(e) {
+            const input = e.inputBuffer.getChannelData(0);
+            const output = e.outputBuffer.getChannelData(0);
+            const step = Math.pow(0.5, bits);
+            for (let i = 0; i < input.length; i++) {
+                output[i] = Math.floor(input[i] / step) * step;
+            }
+        };
+        crushNode.connect(distNode);
+
+        // 3. Delay System (Send/Return)
+        const delayNode = audioCtx.createDelay(5.0); // Max 5 secondi
+        delayNode.delayTime.value = 0.3; // Default 300ms
+        
+        const feedbackNode = audioCtx.createGain();
+        feedbackNode.gain.value = 0.4; // 40% feedback (ripetizioni)
+
+        // Cablaggio Delay: Delay -> Feedback -> Delay (Loop)
+        delayNode.connect(feedbackNode);
+        feedbackNode.connect(delayNode);
+        
+        // Uscita Delay -> Master (Mix)
+        delayNode.connect(masterGain);
+
+        // --- VARIABILI STATO ---
+        let isDistActive = false;
+        let isCrushActive = false;
+        let isDelayActive = false; // Nuovo stato
+
+        let octaveIndex = 0;
+        let isShiftPressed = false; 
+        
+        let valDur = 0.2; 
+        let valDist = 0;
+        let valCrush = 0;
+        let delayTimeVal = 0.3; // Valore corrente delay
+
+        const waveforms = ['triangle', 'sine', 'square', 'sawtooth'];
+        const waveLabels = ['TRI', 'SINE', 'SQR', 'SAW'];
+        let waveIndex = 0;
+        const SEMITONE_RATIO = 1.059463; 
+        
+        const dispMain = document.getElementById('disp-main');
+        const dispVal = document.getElementById('disp-val');
+
+        function makeDistortionCurve(amount) {
+            const k = typeof amount === 'number' ? amount : 50;
+            const n_samples = 44100;
+            const curve = new Float32Array(n_samples);
+            const deg = Math.PI / 180;
+            for (let i = 0; i < n_samples; ++i) {
+                const x = i * 2 / n_samples - 1;
+                curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+            }
+            return curve;
+        }
+
+        function updateFX() {
+            // Distorsione
+            const distAmount = isDistActive ? valDist * 400 : 0;
+            distNode.curve = makeDistortionCurve(distAmount);
+            // Bitcrush
+            bits = isCrushActive ? 16 - (valCrush * 14) : 16;
+            // Delay Time
+            delayNode.delayTime.linearRampToValueAtTime(delayTimeVal, audioCtx.currentTime + 0.1);
+        }
+
+        function playNote(baseFreq, noteName) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            let freq = baseFreq;
+            if (isShiftPressed && noteName !== 'MI' && noteName !== 'SI') freq *= SEMITONE_RATIO;
+            const modes = [1, 0.5, 2];
+            freq *= modes[octaveIndex];
+
+            const osc = audioCtx.createOscillator();
+            const noteGain = audioCtx.createGain();
+            
+            osc.type = waveforms[waveIndex];
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            const realDuration = 0.1 + (valDur * 2.9);
+
+            noteGain.gain.setValueAtTime(0.4, audioCtx.currentTime); 
+            noteGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + realDuration);
+            
+            // ROUTING
+            osc.connect(noteGain);
+            
+            // 1. Dry Signal Chain (con o senza effetti insert)
+            if (isCrushActive) {
+                noteGain.connect(crushNode);
+            } else {
+                noteGain.connect(distNode);
+            }
+
+            // 2. Delay Send (Se attivo, mandiamo il segnale anche al Delay)
+            if (isDelayActive) {
+                noteGain.connect(delayNode);
+            }
+            
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + realDuration);
+            
+            setTimeout(() => { osc.disconnect(); noteGain.disconnect(); }, realDuration * 1000 + 100);
+        }
+
+        // --- GESTIONE CONTROLLI ---
+
+        function toggleFX(type) {
+            if (type === 'dist') {
+                isDistActive = !isDistActive;
+                document.getElementById('btn-fx-dist').classList.toggle('fx-active-dist', isDistActive);
+                dispVal.textContent = isDistActive ? "DIST: ON" : "DIST: OFF";
+            } else if (type === 'crush') {
+                isCrushActive = !isCrushActive;
+                document.getElementById('btn-fx-crush').classList.toggle('fx-active-crush', isCrushActive);
+                dispVal.textContent = isCrushActive ? "CRUSH: ON" : "CRUSH: OFF";
+            } else if (type === 'delay') {
+                isDelayActive = !isDelayActive;
+                document.getElementById('btn-fx-delay').classList.toggle('fx-active-delay', isDelayActive);
+                dispVal.textContent = isDelayActive ? "DELAY: ON" : "DELAY: OFF";
+            }
+            updateFX();
+        }
+
+        function changeDelayTime(delta) {
+            delayTimeVal += delta;
+            // Limiti: min 0.05s (50ms) max 1.5s
+            if (delayTimeVal < 0.05) delayTimeVal = 0.05;
+            if (delayTimeVal > 1.5) delayTimeVal = 1.5;
+            
+            updateFX();
+            dispVal.textContent = `ECHO: ${delayTimeVal.toFixed(2)}s`;
+        }
+
+        // --- KNOB LOGIC ---
+        let activeKnob = null; let startY = 0; let startKnobVal = 0;
+
+        document.querySelectorAll('.knob-cell').forEach(k => {
+            k.addEventListener('mousedown', (e) => {
+                activeKnob = k; startY = e.clientY;
+                const type = k.dataset.type;
+                if(type === 'dur') startKnobVal = valDur;
+                if(type === 'dist') startKnobVal = valDist;
+                if(type === 'crush') startKnobVal = valCrush;
+                document.body.style.cursor = 'ns-resize';
+                e.preventDefault();
+            });
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!activeKnob) return;
+            const delta = (startY - e.clientY) * 0.01; 
+            let newVal = Math.max(0, Math.min(1, startKnobVal + delta)); 
+            
+            const type = activeKnob.dataset.type;
+            const circle = activeKnob.querySelector('.knob-circle');
+            
+            if(type === 'dur') {
+                valDur = newVal;
+                dispVal.textContent = "DUR: " + (0.1 + valDur*2.9).toFixed(1) + "s";
+            } else if(type === 'dist') {
+                valDist = newVal; updateFX();
+                dispVal.textContent = "DRIVE: " + Math.round(valDist*100) + "%";
+            } else if(type === 'crush') {
+                valCrush = newVal; updateFX();
+                dispVal.textContent = "BITS: " + (16 - (valCrush*14)).toFixed(1);
+            }
+
+            const deg = -135 + (newVal * 270);
+            circle.style.transform = `rotate(${deg}deg)`;
+        });
+
+        window.addEventListener('mouseup', () => { activeKnob = null; document.body.style.cursor = 'default'; });
+
+        // --- ALTRI CONTROLLI ---
+        function cycleOctave() {
+            octaveIndex = (octaveIndex + 1) % 3;
+            const labels = ["NORM", "LOW", "HIGH"];
+            const btn = document.getElementById('btn-octave');
+            btn.innerHTML = `<span class="shortcuts">9</span>OCT: ${labels[octaveIndex]}`;
+            btn.classList.remove('oct-low', 'oct-high');
+            if(octaveIndex === 1) btn.classList.add('oct-low');
+            if(octaveIndex === 2) btn.classList.add('oct-high');
+        }
+
+        function cycleWave() {
+            waveIndex = (waveIndex + 1) % waveforms.length;
+            dispMain.textContent = waveLabels[waveIndex];
+        }
+
+        function triggerVisual(btn) {
+            if(!btn) return;
+            btn.classList.add('active-key');
+            setTimeout(() => btn.classList.remove('active-key'), 100);
+        }
+
+        function updateShiftUI() {
+            document.querySelectorAll('.note-btn').forEach(btn => {
+                const name = btn.dataset.note;
+                const span = btn.querySelector('.note-main');
+                btn.classList.remove('sharp-mode', 'no-sharp');
+                if (isShiftPressed) {
+                    if (name.includes('MI') || name.includes('SI')) {
+                        btn.classList.add('sharp-mode', 'no-sharp');
+                        span.textContent = name.replace('_HIGH','↑');
+                    } else {
+                        btn.classList.add('sharp-mode');
+                        span.textContent = name.replace('_HIGH','↑') + '#';
+                    }
+                } else {
+                    span.textContent = name.replace('_HIGH','↑');
+                }
+            });
+        }
+
+        // --- INIT LISTENER ---
+        const notes = { DO: 261.63, RE: 293.66, MI: 329.63, FA: 349.23, SOL: 392.00, LA: 440.00, SI: 493.88, DO_HIGH: 523.25 };
+        const keys = ['DO','RE','MI','FA','SOL','LA','SI','DO_HIGH'];
+        const ids = ['btn-do','btn-re','btn-mi','btn-fa','btn-sol','btn-la','btn-si','btn-do-high'];
+
+        ids.forEach((id, i) => document.getElementById(id).addEventListener('mousedown', () => playNote(notes[keys[i]], keys[i])));
+
+        document.getElementById('btn-octave').addEventListener('click', cycleOctave);
+        document.getElementById('btn-inst').addEventListener('click', cycleWave);
+        document.getElementById('btn-fx-dist').addEventListener('click', () => toggleFX('dist'));
+        document.getElementById('btn-fx-crush').addEventListener('click', () => toggleFX('crush'));
+        document.getElementById('btn-fx-delay').addEventListener('click', () => toggleFX('delay'));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.repeat) return;
+            if (e.key === 'Shift') { isShiftPressed = true; updateShiftUI(); return; }
+
+            const map = { 'Digit1': 0, 'Digit2': 1, 'Digit3': 2, 'Digit4': 3, 'Digit5': 4, 'Digit6': 5, 'Digit7': 6, 'Digit8': 7 };
+            if (map[e.code] !== undefined) {
+                const idx = map[e.code];
+                playNote(notes[keys[idx]], keys[idx]);
+                triggerVisual(document.getElementById(ids[idx]));
+            }
+
+            if(e.code === 'Digit9') { cycleOctave(); triggerVisual(document.getElementById('btn-octave')); }
+            if(e.code === 'Digit0') { cycleWave(); triggerVisual(document.getElementById('btn-inst')); }
+            if(e.code === 'KeyD') { toggleFX('dist'); triggerVisual(document.getElementById('btn-fx-dist')); }
+            if(e.code === 'KeyB') { toggleFX('crush'); triggerVisual(document.getElementById('btn-fx-crush')); }
+            
+            // TASTI FRECCIA: REGOLAZIONE DELAY
+            if(e.code === 'ArrowLeft') { 
+                e.preventDefault();
+                changeDelayTime(-0.05); 
+                triggerVisual(document.getElementById('btn-fx-delay'));
+            }
+            if(e.code === 'ArrowRight') { 
+                e.preventDefault();
+                changeDelayTime(0.05); 
+                triggerVisual(document.getElementById('btn-fx-delay'));
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Shift') { isShiftPressed = false; updateShiftUI(); }
+        });
+
+    </script>
+</body> 
+</html>
