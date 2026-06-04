@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>verbum-manent</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tetris.css">
+</head>
+<body>
+
+    <h1 class="desktop-title">verbum-manent</h1>
+
+    <div id="icon-scrivi" class="desktop-icon">
+        <div class="icon-img icon-sheet"></div>
+        <span class="icon-label">scrivi</span>
+    </div>
+
+    <div id="icon-archivio" class="desktop-icon">
+        <div class="icon-img icon-book"></div>
+        <span class="icon-label">archivio</span>
+    </div>
+
+    <div id="icon-cestino" class="desktop-icon">
+        <div class="icon-img icon-trash"></div>
+        <span class="icon-label">cestino</span>
+    </div>
+
+    <div id="icon-webcam" class="desktop-icon">
+        <div class="icon-img icon-camera"></div>
+        <span class="icon-label">webcam</span>
+    </div>
+
+    <div id="icon-galleria" class="desktop-icon">
+        <div class="icon-img icon-gallery"></div>
+        <span class="icon-label">galleria</span>
+    </div>
+
+    <div id="icon-tetris" class="desktop-icon">
+        <div class="icon-img icon-tetris"></div>
+        <span class="icon-label">tetris</span>
+    </div>
+
+    <div id="window-scrivi" class="window">
+        <div class="window-header">
+            <span>editor</span>
+            <div class="header-actions">
+                <span id="btn-save-scrivi" class="action-btn">[SALVA]</span>
+                <span id="btn-close-scrivi" class="action-btn">X</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <textarea id="note-input" placeholder="Scrivi qui i tuoi pensieri..."></textarea>
+        </div>
+    </div>
+
+    <div id="window-archivio" class="window">
+        <div class="window-header">
+            <span>root/archivio</span>
+            <span id="btn-close-archivio" class="action-btn">X</span>
+        </div>
+        <div class="window-content" id="archive-list"></div>
+    </div>
+
+    <div id="window-cestino" class="window">
+        <div class="window-header">
+            <span>root/cestino</span>
+            <div class="header-actions">
+                <span id="btn-empty-cestino" class="action-btn">[SVUOTA]</span>
+                <span id="btn-close-cestino" class="action-btn">X</span>
+            </div>
+        </div>
+        <div class="window-content" id="cestino-list"></div>
+    </div>
+
+    <div id="window-webcam" class="window">
+        <div class="window-header">
+            <span>webcam</span>
+            <div class="header-actions">
+                <span id="btn-scatta-webcam" class="action-btn btn-scatta">[SCATTA]</span>
+                <span id="btn-close-webcam" class="action-btn">X</span>
+            </div>
+        </div>
+        <div class="window-content content-no-padding">
+            <video id="webcam-video" autoplay playsinline></video>
+            <div id="camera-flash"></div>
+        </div>
+    </div>
+
+    <div id="window-galleria" class="window">
+        <div class="window-header">
+            <span>root/galleria</span>
+            <span id="btn-close-galleria" class="action-btn">X</span>
+        </div>
+        <div class="window-content">
+            <div id="galleria-list" class="gallery-grid"></div>
+        </div>
+    </div>
+
+    <div id="window-tetris" class="window">
+        <div class="window-header">
+            <span>root/tetris</span>
+            <div class="header-actions">
+                <span id="btn-close-tetris" class="action-btn">X</span>
+            </div>
+        </div>
+        <div id="tetris-content" class="window-content content-no-padding">
+            <canvas width="320" height="640" id="tetris-game"></canvas>
+        </div>
+    </div>
+
+    <div id="window-viewer" class="window">
+        <div class="window-header">
+            <span id="viewer-title">visualizzatore</span>
+            <div class="header-actions">
+                <span id="btn-close-viewer" class="action-btn">X</span>
+            </div>
+        </div>
+        <div class="window-content viewer-content">
+            <img id="viewer-img" src="" class="img-viewer">
+        </div>
+    </div>
+
+    <div id="window-save" class="window">
+        <div class="window-header">
+            <span>salva con nome</span>
+            <div class="header-actions">
+                <span id="btn-close-save" class="action-btn">X</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <input type="text" id="filename-input" placeholder="Nome nota..." autocomplete="off">
+            <button id="btn-confirm-save" class="confirm-btn">CONFERMA</button>
+        </div>
+    </div>
+
+    <div id="window-confirm" class="window">
+        <div class="window-header"><span>attenzione</span></div>
+        <div class="window-content">
+            <p id="confirm-msg-text" class="confirm-msg-text">Azione richiesta</p>
+            <div class="confirm-btn-group">
+                <button id="btn-yes-confirm" class="confirm-btn">SI</button>
+                <button id="btn-no-confirm" class="confirm-btn">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="context-menu" class="context-menu">
+        <div id="menu-copy" class="context-menu-item">copia</div>
+        <div id="menu-rename" class="context-menu-item">rinomina</div>
+        <div id="menu-fav" class="context-menu-item">preferiti</div>
+        <div id="menu-delete-trash" class="context-menu-item">elimina</div>
+    </div>
+
+    <div id="context-menu-cestino" class="context-menu">
+        <div id="menu-restore" class="context-menu-item">ripristina</div>
+        <div id="menu-delete-perm" class="context-menu-item">elimina def.</div>
+    </div>
+
+    <div id="context-menu-desktop" class="context-menu">
+        <div id="menu-paste-desktop" class="context-menu-item">incolla</div>
+        <div id="menu-new-folder-desk" class="context-menu-item">nuova cartella</div>
+    </div>
+
+    <div id="context-menu-inside-folder" class="context-menu">
+        <div id="menu-paste-folder" class="context-menu-item">incolla</div>
+        <div id="menu-new-folder-ins" class="context-menu-item">nuova cartella</div>
+    </div>
+
+    <div id="context-menu-folder" class="context-menu">
+        <div id="menu-copy-folder" class="context-menu-item">copia</div>
+        <div id="menu-rename-folder" class="context-menu-item">rinomina</div>
+        <div id="menu-group-folder" class="context-menu-item">raggruppa in cartella</div>
+        <div id="menu-fav-folder" class="context-menu-item">preferiti</div>
+        <div id="menu-delete-folder" class="context-menu-item">elimina</div>
+    </div>
+
+    <div id="selection-box"></div>
+
+    <canvas id="photo-canvas"></canvas>
+
+    <script src="script.js"></script>
+    <script src="tetris.js"></script>
+</body>
+</html>

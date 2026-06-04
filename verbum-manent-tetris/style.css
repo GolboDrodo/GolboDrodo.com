@@ -1,0 +1,394 @@
+/* --- 1. CARICAMENTO FONT --- */
+@font-face {
+    font-family: 'FT88';
+    src: url('FT88-Regular.otf') format('opentype');
+    font-weight: normal; 
+    font-style: normal;
+}
+
+/* --- 2. RESET E IMPOSTAZIONI GLOBALI --- */
+::selection { background: #FFFFFF; color: #0000FF; }
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    user-select: none; 
+    outline: none; 
+}
+
+body {
+    background-color: #0000FF; 
+    color: #FFFFFF;
+    font-family: 'FT88', monospace;
+    height: 100vh; 
+    width: 100vw; 
+    overflow: hidden; 
+    position: relative;
+}
+
+h1.desktop-title {
+    position: absolute; 
+    top: 20px; 
+    left: 20px; 
+    font-size: 14px;
+    text-transform: lowercase; 
+    z-index: 0; 
+    pointer-events: none; 
+}
+
+/* --- 3. ICONE DEL DESKTOP --- */
+.desktop-icon {
+    position: absolute; 
+    width: 60px; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    cursor: pointer; 
+    z-index: 1; 
+    gap: 8px;
+}
+
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 60px;
+    position: relative;
+}
+
+.desktop-icon:active, .folder-item:active { opacity: 0.8; }
+
+.icon-img {
+    width: 32px; 
+    height: 42px; 
+    border: 2px solid transparent; 
+    transition: 0.1s; 
+    position: relative;
+}
+
+.icon-sheet { background-color: #FFFFFF; border: 2px solid #FFFFFF; background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 6px, #0000FF 6px, #0000FF 7px); }
+.icon-book { background-color: #0000FF; border: 2px solid #FFFFFF; box-shadow: inset 6px 0 0 0 #FFFFFF; }
+.icon-trash { border: 2px solid #FFFFFF; border-top: 6px solid #FFFFFF; background-image: repeating-linear-gradient(to right, transparent 0px, transparent 4px, #FFFFFF 4px, #FFFFFF 6px); }
+.icon-camera { 
+    background-color: transparent; 
+    border-color: transparent; 
+    /* Pulsante superiore */
+    background-image: linear-gradient(#FFFFFF, #FFFFFF);
+    background-size: 10px 3px;
+    background-position: 4px 11px;
+    background-repeat: no-repeat;
+}
+.icon-camera::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    width: 32px;
+    height: 26px;
+    background-color: #0000FF;
+    border: 2px solid #FFFFFF;
+    /* Flash in alto a destra */
+    background-image: linear-gradient(#FFFFFF, #FFFFFF);
+    background-size: 6px 2px;
+    background-position: right 4px top 4px;
+    background-repeat: no-repeat;
+}
+.icon-camera::after { 
+    content: ''; 
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px; 
+    height: 14px; 
+    border: 2px solid #FFFFFF; 
+    border-radius: 50%; 
+}
+.icon-gallery { border: 2px solid #FFFFFF; background-image: radial-gradient(circle at 70% 30%, #FFFFFF 2px, transparent 3px), linear-gradient(135deg, transparent 50%, #FFFFFF 50%); }
+
+.icon-folder {
+    background-color: #0000FF;
+    border: 2px solid #FFFFFF;
+    height: 32px;
+    margin-top: 10px; 
+}
+.icon-folder::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -2px;
+    width: 14px;
+    height: 4px;
+    background-color: #0000FF;
+    border: 2px solid #FFFFFF;
+    border-bottom: none;
+}
+
+.icon-tetris { 
+    background-color: #0000FF; 
+    border: 2px solid #FFFFFF; 
+    background-image: linear-gradient(to right, #FFFFFF 50%, transparent 50%), linear-gradient(to bottom, #FFFFFF 50%, transparent 50%); 
+    background-size: 10px 10px; 
+}
+
+.icon-label {
+    background-color: #0000FF; 
+    color: #FFFFFF; 
+    font-size: 10px;
+    padding: 2px 4px; 
+    text-transform: lowercase; 
+    text-align: center;
+    white-space: nowrap;
+}
+
+.folder-custom .icon-label {
+    white-space: normal; 
+    word-wrap: break-word; 
+    max-width: 100%;
+}
+
+.desktop-icon.selected .icon-label, .folder-item.selected .icon-label {
+    background-color: #FFFFFF;
+    color: #0000FF;
+}
+
+/* --- 4. FINESTRE E INTERFACCE (WINDOWS) --- */
+.window {
+    position: absolute; 
+    background-color: #0000ffcc; 
+    border: 1px solid #FFFFFF;
+    min-width: 250px; 
+    display: none; 
+    flex-direction: column;
+    box-shadow: 6px 6px 0px #000088af; 
+    z-index: 100;
+}
+
+.window-header {
+    background-color: #ff53ddda; 
+    color: #ffffff; 
+    padding: 6px 8px; 
+    font-size: 12px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    cursor: move; 
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.header-actions { display: flex; gap: 15px; }
+.action-btn { cursor: pointer; font-weight: bold; }
+.action-btn:hover { text-decoration: underline; }
+
+.window-content { 
+    padding: 10px; 
+    flex-grow: 1; 
+    overflow: auto; 
+    font-size: 12px; 
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
+}
+
+.content-no-padding { padding: 0; }
+.viewer-content { background: #000; padding: 0; }
+.text-center { text-align: center; }
+
+input[type="text"] {
+    background: transparent; 
+    border: 1px solid #FFFFFF; 
+    color: #FFFFFF;
+    font-family: inherit; 
+    padding: 8px; 
+    font-size: 12px; 
+    margin-bottom: 10px;
+}
+
+.confirm-btn {
+    background: #FFFFFF; 
+    color: #0000FF; 
+    border: none; 
+    padding: 8px 16px;
+    font-family: inherit; 
+    cursor: pointer; 
+    text-align: center;
+}
+
+.confirm-btn-group { display: flex; gap: 10px; }
+.confirm-btn-group .confirm-btn { flex: 1; }
+.confirm-msg-text { text-align: center; margin-bottom: 15px; }
+
+textarea {
+    width: 100%; 
+    height: 100%; 
+    background: transparent; 
+    border: none;
+    color: white; 
+    font-family: inherit; 
+    font-size: inherit; 
+    resize: none; 
+    line-height: 1.4;
+}
+
+#camera-flash {
+    position:absolute; top:0; left:0; width:100%; height:100%; 
+    background:white; opacity:0; pointer-events:none; 
+    transition: opacity 0.1s;
+}
+
+/* --- 5. GRIGLIA E ELEMENTI JS DINAMICI --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    align-items: start !important;
+}
+
+.gallery-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px;
+    cursor: pointer; 
+    position: relative; 
+    text-align: center;
+}
+
+.gallery-item img {
+    max-width: 100%; 
+    max-height: 65px; 
+    object-fit: contain;
+    border: 1px solid transparent; 
+}
+
+.gallery-name { 
+    font-size: 10px; 
+    word-wrap: break-word; 
+    max-width: 100%; 
+    text-transform: lowercase; 
+}
+
+.gallery-fav { 
+    position: absolute; 
+    top: -10px; 
+    right: 0; 
+    font-size: 12px; 
+    font-weight: bold; 
+    color: #ffffff; 
+}
+
+.empty-msg { text-align: center; opacity: 0.7; margin-top: 20px; }
+.full-width { grid-column: 1 / -1; }
+.folder-icon-img { width: 32px; height: 32px; object-fit: cover; border: 1px solid #FFFFFF; }
+.fav-indicator { position: absolute; top: -10px; right: 0; font-size: 12px; font-weight: bold; color: #ffffff; display: none; }
+.fav-indicator.visible { display: block; }
+.icon-sheet-container { margin: 0 auto; margin-bottom: 5px; }
+.trash-text { opacity: 0.6; text-decoration: line-through; }
+.error-msg { margin-bottom: 15px; line-height: 1.4; }
+.btn-scatta { color: #ffff00; }
+
+/* DRAG & DROP E SELEZIONE */
+.folder-custom.drag-target .icon-label { background-color: #FFFFFF !important; color: #0000FF !important; }
+body.no-drop-cursor, body.no-drop-cursor * { cursor: not-allowed !important; }
+
+#selection-box {
+    display: none; 
+    position: absolute; 
+    border: 1px dashed #FFFFFF; 
+    background: rgba(255,255,255,0.2); 
+    z-index: 9999; 
+    pointer-events: none;
+}
+
+/* --- 6. FEEDBACK SELEZIONE --- */
+.file-item.selected {
+    background-color: #FFFFFF !important;
+    color: #0000FF !important;
+}
+
+.gallery-item.selected img {
+    border: 1px solid #FFFFFF !important;
+}
+
+.gallery-item.selected .gallery-name {
+    background-color: #FFFFFF;
+    color: #0000FF;
+}
+
+/* --- 7. LISTE --- */
+.file-item {
+    padding: 8px 0; 
+    cursor: pointer; 
+    border-bottom: 1px dashed #4444FF;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 12px;
+}
+
+.file-item:hover { background-color: #FFFFFF; color: #0000FF; }
+.file-name-text { font-weight: bold; }
+.file-date { font-size: 10px; opacity: 0.8; margin-left: 10px; }
+
+/* --- 8. MENU CONTESTUALI --- */
+.context-menu {
+    position: absolute; 
+    background-color: #0000FF; 
+    border: 1px solid #FFFFFF;
+    width: 150px; 
+    display: none; 
+    z-index: 9999; 
+    box-shadow: 4px 4px 0px #000088;
+}
+
+.context-menu-item { 
+    padding: 8px 12px; 
+    cursor: pointer; 
+    border-bottom: 1px solid #000088; 
+    font-size: 12px; 
+    text-transform: lowercase; 
+}
+
+.context-menu-item:hover { background-color: #FFFFFF; color: #0000FF; }
+
+#menu-paste-desktop, #menu-paste-folder, #menu-group-folder { display: none; }
+
+/* --- 9. VIEWER MULTIMEDIALI --- */
+video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    background: #000; 
+    transform: scaleX(-1); 
+}
+
+.img-viewer { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
+
+/* --- 10. LAYOUT E DIMENSIONI INIZIALI (Ex Inline Styles) --- */
+#icon-scrivi { top: 80px; left: 40px; }
+#icon-archivio { top: 80px; left: 120px; }
+#icon-cestino { top: 80px; left: 200px; }
+#icon-webcam { top: 80px; left: 280px; }
+#icon-galleria { top: 80px; left: 360px; }
+#icon-tetris { top: 80px; left: 440px; }
+
+#window-scrivi { top: 100px; left: 100px; width: 450px; height: 350px; }
+#window-archivio { top: 150px; left: 50px; width: 350px; height: 300px; }
+#window-cestino { top: 200px; left: 100px; width: 350px; height: 300px; }
+#window-webcam { top: 120px; left: 450px; width: 400px; height: 320px; }
+#window-galleria { top: 180px; left: 500px; width: 450px; height: 350px; }
+#window-tetris { top: 100px; left: 150px; width: 200px; min-width: 200px; }
+#window-viewer { top: 100px; left: 100px; width: 500px; height: 400px; }
+#window-save { width: 300px; }
+#window-confirm { width: 250px; }
+
+#photo-canvas {
+    display: none;
+}
