@@ -1,0 +1,514 @@
+/* --- 1. VARIABILI E FONT --- */
+:root {
+    --color-bg: #0000FF;
+    --color-txt: #FFFFFF;
+    --color-win: #ff53dd;
+}
+
+@font-face {
+    font-family: 'FT88';
+    src: url('FT88-Regular.otf') format('opentype');
+    font-weight: normal; 
+    font-style: normal;
+}
+
+/* --- 2. RESET E IMPOSTAZIONI GLOBALI --- */
+::selection { background: var(--color-txt); color: var(--color-bg); }
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    user-select: none; 
+    outline: none; 
+}
+
+body {
+    background-color: var(--color-bg); 
+    color: var(--color-txt);
+    font-family: 'FT88', monospace;
+    height: 100vh; 
+    width: 100vw; 
+    overflow: hidden; 
+    position: relative;
+}
+
+h1.desktop-title {
+    position: absolute; 
+    top: 20px; 
+    left: 20px; 
+    font-size: 14px;
+    text-transform: lowercase; 
+    z-index: 0; 
+    pointer-events: none; 
+}
+
+
+/* --- 3. ICONE DEL DESKTOP --- */
+.desktop-icon {
+    position: absolute; 
+    width: 60px; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    cursor: pointer; 
+    z-index: 1; 
+    gap: 8px;
+}
+
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 60px;
+    position: relative;
+}
+
+.desktop-icon:active, .folder-item:active { opacity: 0.8; }
+
+.icon-img {
+    width: 32px; 
+    height: 42px; 
+    border: 2px solid transparent; 
+    transition: opacity 0.1s, transform 0.1s; /* <-- Modificato: non anima più il colore! */
+    position: relative;
+}
+
+.icon-sheet { 
+    background-color: var(--color-txt); 
+    border: 2px solid var(--color-txt); 
+    background-image: repeating-linear-gradient(to bottom, var(--color-txt) 0px, var(--color-txt) 6px, var(--color-bg) 6px, var(--color-bg) 7px); 
+}
+
+.icon-book {
+    background-color: var(--color-bg);
+    border: none;
+    box-shadow: none;
+    background-image:
+        linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)),
+        repeating-linear-gradient(to bottom, var(--color-txt) 0px, var(--color-txt) 2px, transparent 2px, transparent 4px);
+    background-size: 30px 2px, 30px 2px, 2px 42px, 2px 42px, 20px 4px, 6px 34px;
+    background-position: 2px 0px, 2px 40px, 2px 0px, 30px 0px, 8px 4px, 0px 4px;
+    background-repeat: no-repeat;
+}
+
+.icon-trash { 
+    border: 2px solid var(--color-txt); 
+    border-top: 6px solid var(--color-txt); 
+    background-image: repeating-linear-gradient(to right, transparent 0px, transparent 4px, var(--color-txt) 4px, var(--color-txt) 6px); 
+}
+
+.icon-camera { 
+    background-color: transparent; 
+    border-color: transparent; 
+    background-image: linear-gradient(var(--color-txt), var(--color-txt));
+    background-size: 10px 3px;
+    background-position: 4px 11px;
+    background-repeat: no-repeat;
+}
+.icon-camera::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    width: 32px;
+    height: 26px;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-txt);
+    background-image: linear-gradient(var(--color-txt), var(--color-txt));
+    background-size: 6px 2px;
+    background-position: right 4px top 4px;
+    background-repeat: no-repeat;
+}
+.icon-camera::after { 
+    content: ''; 
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px; 
+    height: 14px; 
+    border: 2px solid var(--color-txt); 
+    border-radius: 50%; 
+}
+
+.icon-gallery {
+    background-color: transparent;
+    border: none;
+    background-image:
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-bg), var(--color-bg)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        linear-gradient(var(--color-bg), var(--color-bg)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        linear-gradient(var(--color-bg), var(--color-bg)), linear-gradient(var(--color-txt), var(--color-txt));
+    background-size:
+        2px 4px, 4px 2px, 9px 3px, 15px 2px,
+        20px 20px, 24px 28px, 2px 22px,
+        20px 20px, 24px 28px, 2px 22px,
+        20px 20px, 24px 28px;
+    background-position:
+        6px 16px, 5px 17px, 11px 28px, 5px 31px,
+        2px 13px, 0px 11px, 24px 13px,
+        6px 9px,  4px 7px, 28px 9px,
+        10px 5px, 8px 3px;
+    background-repeat: no-repeat;
+}
+
+.icon-folder {
+    background-color: var(--color-bg);
+    border: none;
+    height: 42px;
+    margin-top: 0;
+    background-image:
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt));
+    background-size: 2px 31px, 32px 2px, 2px 28px, 32px 2px, 15px 2px, 17px 2px, 2px 3px;
+    background-position: 0px 11px, 0px 40px, 30px 14px, 0px 24px, 0px 11px, 15px 14px, 13px 13px;
+    background-repeat: no-repeat;
+}
+
+.icon-folder.full {
+    background-image:
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt));
+    background-size: 24px 2px, 2px 31px, 32px 2px, 2px 28px, 32px 2px, 15px 2px, 17px 2px, 2px 3px;
+    background-position: 4px 20px, 0px 11px, 0px 40px, 30px 14px, 0px 24px, 0px 11px, 15px 14px, 13px 13px;
+}
+
+.icon-folder::before {
+    display: none;
+}
+
+.icon-tetris { 
+    background-color: transparent; 
+    border: none; 
+    background-image: 
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)), linear-gradient(var(--color-txt), var(--color-txt)),
+        linear-gradient(var(--color-txt), var(--color-txt)); 
+    background-size: 22px 2px, 32px 2px, 32px 2px, 2px 12px, 2px 22px, 2px 22px, 2px 22px; 
+    background-position: 10px 20px, 0px 30px, 0px 40px, 0px 30px, 10px 20px, 20px 20px, 30px 20px; 
+    background-repeat: no-repeat; 
+}
+
+.icon-label {
+    background-color: transparent; 
+    color: var(--color-txt); 
+    font-size: 10px;
+    padding: 2px 4px; 
+    text-transform: lowercase; 
+    text-align: center;
+    white-space: nowrap;
+}
+
+.folder-custom .icon-label {
+    white-space: normal; 
+    word-wrap: break-word; 
+    max-width: 100%;
+}
+
+.desktop-icon.selected .icon-label, .folder-item.selected .icon-label {
+    background-color: var(--color-txt);
+    color: var(--color-bg);
+}
+
+/* --- 4. FINESTRE E INTERFACCE (WINDOWS) --- */
+.window {
+    position: absolute; 
+    /* Trasparenza calcolata dinamicamente (80% coprente) */
+    background-color: color-mix(in srgb, var(--color-bg) 80%, transparent); 
+    border: 1px solid var(--color-txt);
+    min-width: 250px; 
+    display: none; 
+    flex-direction: column;
+    /* Ombra mezza trasparente e scura in automatico */
+    box-shadow: 6px 6px 0px color-mix(in srgb, var(--color-bg) 50%, transparent); 
+    z-index: 100;
+}
+
+.window-header {
+    /* Header finestra con trasparenza dinamica */
+    background-color: color-mix(in srgb, var(--color-win) 90%, transparent); 
+    color: var(--color-txt);/* Lasciamo il testo bianco forzato sull'header per leggibilità, oppure var(--color-txt) se preferisci */
+    padding: 6px 8px; 
+    font-size: 12px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    cursor: move; 
+    border-bottom: 1px solid var(--color-txt);
+}
+
+.header-actions { display: flex; gap: 15px; }
+.action-btn { cursor: pointer; font-weight: bold; }
+.action-btn:hover { text-decoration: underline; }
+
+.window-content { 
+    padding: 10px; 
+    flex-grow: 1; 
+    overflow: auto; 
+    font-size: 12px; 
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
+}
+
+.content-no-padding { padding: 0; }
+.viewer-content { background: #000; padding: 0; }
+.text-center { text-align: center; }
+
+input[type="text"], input[type="color"] {
+    background: transparent; 
+    border: 1px solid var(--color-txt); 
+    color: var(--color-txt);
+    font-family: inherit; 
+    padding: 8px; 
+    font-size: 12px; 
+    margin-bottom: 10px;
+}
+
+input[type="color"] { padding: 2px; height: 26px; cursor: pointer; }
+
+.confirm-btn {
+    background: var(--color-txt); 
+    color: var(--color-bg); 
+    border: none; 
+    padding: 8px 16px;
+    font-family: inherit; 
+    cursor: pointer; 
+    text-align: center;
+}
+
+.confirm-btn-group { display: flex; gap: 10px; }
+.confirm-btn-group .confirm-btn { flex: 1; }
+.confirm-msg-text { text-align: center; margin-bottom: 15px; }
+
+textarea {
+    width: 100%; 
+    height: 100%; 
+    background: transparent; 
+    border: none;
+    color: var(--color-txt); 
+    font-family: inherit; 
+    font-size: inherit; 
+    resize: none; 
+    line-height: 1.4;
+}
+
+#camera-flash {
+    position:absolute; top:0; left:0; width:100%; height:100%; 
+    background:var(--color-txt); opacity:0; pointer-events:none; 
+    transition: opacity 0.1s;
+}
+
+/* --- 5. GRIGLIA E ELEMENTI JS DINAMICI --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    align-items: start !important;
+}
+
+.gallery-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px;
+    cursor: pointer; 
+    position: relative; 
+    text-align: center;
+}
+
+.gallery-item img {
+    max-width: 100%; 
+    max-height: 65px; 
+    object-fit: contain;
+    border: 1px solid transparent; 
+}
+
+.gallery-name { 
+    font-size: 10px; 
+    word-wrap: break-word; 
+    max-width: 100%; 
+    text-transform: lowercase; 
+}
+
+.gallery-fav { 
+    position: absolute; 
+    top: -10px; 
+    right: 0; 
+    font-size: 12px; 
+    font-weight: bold; 
+    color: var(--color-txt); 
+}
+
+.empty-msg { text-align: center; opacity: 0.7; margin-top: 20px; }
+.full-width { grid-column: 1 / -1; }
+.folder-icon-img { width: 32px; height: 32px; object-fit: cover; border: 1px solid var(--color-txt); }
+.fav-indicator { position: absolute; top: -10px; right: 0; font-size: 12px; font-weight: bold; color: var(--color-txt); display: none; }
+.fav-indicator.visible { display: block; }
+.icon-sheet-container { margin: 0 auto; margin-bottom: 5px; }
+.trash-text { opacity: 0.6; text-decoration: line-through; }
+.error-msg { margin-bottom: 15px; line-height: 1.4; }
+.btn-scatta { color: var(--color-txt); }
+
+/* DRAG & DROP E SELEZIONE */
+.folder-custom.drag-target .icon-label { background-color: var(--color-txt) !important; color: var(--color-bg) !important; }
+body.no-drop-cursor, body.no-drop-cursor * { cursor: not-allowed !important; }
+
+#selection-box {
+    display: none; 
+    position: absolute; 
+    border: 1px dashed var(--color-txt); 
+    background: color-mix(in srgb, var(--color-txt) 20%, transparent); 
+    z-index: 9999; 
+    pointer-events: none;
+}
+
+/* --- 6. FEEDBACK SELEZIONE --- */
+.file-item.selected {
+    background-color: var(--color-txt) !important;
+    color: var(--color-bg) !important;
+    border-bottom-color: color-mix(in srgb, var(--color-bg) 50%, transparent) !important;
+}
+
+.gallery-item.selected img {
+    border: 1px solid var(--color-txt) !important;
+}
+
+.gallery-item.selected .gallery-name {
+    background-color: var(--color-txt);
+    color: var(--color-bg);
+}
+
+/* --- 7. LISTE --- */
+.file-item {
+    padding: 8px 0; 
+    cursor: pointer; 
+    border-bottom: 1px dashed color-mix(in srgb, var(--color-txt) 30%, transparent);
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 12px;
+}
+
+.file-item:hover { 
+    background-color: var(--color-txt); 
+    color: var(--color-bg); 
+    border-bottom-color: color-mix(in srgb, var(--color-bg) 50%, transparent); 
+}
+.file-name-text { font-weight: bold; }
+.file-date { font-size: 10px; opacity: 0.8; margin-left: 10px; }
+
+/* --- 8. MENU CONTESTUALI --- */
+.context-menu {
+    position: absolute; 
+    background-color: var(--color-bg); 
+    border: 1px solid var(--color-txt);
+    width: 150px; 
+    display: none; 
+    z-index: 9999; 
+    /* Ombra scura generata in automatico */
+    box-shadow: 4px 4px 0px color-mix(in srgb, var(--color-bg) 50%, black);
+}
+
+.context-menu-item { 
+    padding: 8px 12px; 
+    cursor: pointer; 
+    border-bottom: 1px solid color-mix(in srgb, var(--color-txt) 50%, transparent);
+    font-size: 12px; 
+    text-transform: lowercase; 
+}
+
+.context-menu-item:hover { background-color: var(--color-txt); color: var(--color-bg); }
+
+#menu-paste-desktop, #menu-paste-folder, #menu-group-folder { display: none; }
+
+/* --- 9. VIEWER MULTIMEDIALI --- */
+video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    background: #000; 
+    transform: scaleX(-1); 
+}
+
+.img-viewer { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
+
+/* --- 10. LAYOUT E DIMENSIONI INIZIALI --- */
+#icon-scrivi { top: 80px; left: 40px; }
+#icon-archivio { top: 80px; left: 120px; }
+#icon-cestino { top: 80px; left: 200px; }
+#icon-webcam { top: 80px; left: 280px; }
+#icon-galleria { top: 80px; left: 360px; }
+#icon-tetris { top: 80px; left: 440px; }
+
+#window-scrivi { top: 100px; left: 100px; width: 450px; height: 350px; }
+#window-archivio { top: 150px; left: 50px; width: 350px; height: 300px; }
+#window-cestino { top: 200px; left: 100px; width: 350px; height: 300px; }
+#window-webcam { top: 120px; left: 450px; width: 400px; height: 320px; }
+#window-galleria { top: 180px; left: 500px; width: 450px; height: 350px; }
+#window-tetris { top: 100px; left: 150px; width: 200px; min-width: 200px; }
+#window-viewer { top: 100px; left: 100px; width: 500px; height: 400px; }
+#window-save { width: 300px; }
+#window-confirm { width: 250px; }
+
+#photo-canvas {
+    display: none;
+}
+
+#menu-colors {
+    background-color: var(--color-win);
+    color: var(--color-txt);
+}
+
+#menu-colors:hover {
+    background-color: var(--color-txt);
+    color: var(--color-win);
+}
+/* --- SCROLLBAR MINIMALE E SQUADRATA --- */
+::-webkit-scrollbar {
+    width: 8px !important;
+    border-radius: 0 !important;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-txt) !important; 
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-txt) transparent;
+}
+/* --- FIX SCROLLBAR EDITOR --- */
+#window-scrivi .window-content {
+    padding: 0 !important; 
+}
+
+#note-input {
+    padding: 10px !important; 
+}
