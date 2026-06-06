@@ -1,7 +1,0 @@
-/* ICONA DESKTOP TETRIS */
-
-
-/* FINESTRA ED ELEMENTI DI GIOCO */
-#window-tetris { top: 100px; left: 150px; width: 200px; min-width: 200px; }
-#tetris-content { background-color: transparent; overflow: hidden; }
-#tetris-game { display: block; width: 100%; height: auto; background: transparent; }
